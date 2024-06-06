@@ -4,6 +4,8 @@ import styles from "./Card.module.css";
 
 function Card({ data, title, subTitle }) {
 	const [list, setList] = useState(data);
+	const [animateRowIndex, setAnimateRowIndex] = useState(null);
+
 	useEffect(() => {
 		let interval = 3000;
 
@@ -27,6 +29,7 @@ function Card({ data, title, subTitle }) {
 				const updatedPlayer = {
 					...player,
 					time: formattedTime,
+					rankChange: "", // Reset rankChange to an empty string
 				};
 
 				const randomIndex = Math.floor(Math.random() * list.length);
@@ -37,13 +40,40 @@ function Card({ data, title, subTitle }) {
 				a.time.localeCompare(b.time)
 			);
 
+			const prevList = list;
+
 			setList(sortedData);
+
+			sortedData.forEach((player, index) => {
+				const prevIndex = prevList.findIndex((p) => p.name === player.name);
+				console.log("prev", prevIndex);
+
+				if (prevIndex > index) {
+					player.rankChange = "+";
+				} else if (prevIndex < index) {
+					player.rankChange = "-";
+				} else {
+					player.rankChange = "";
+				}
+			});
+
+			const changedRowIndex = sortedData.findIndex(
+				(player) => player.rankChange !== ""
+			);
+
+			if (changedRowIndex !== -1) {
+				setAnimateRowIndex(changedRowIndex);
+				setTimeout(() => {
+					setAnimateRowIndex(null);
+				}, 1000); // Reset animateRowIndex after animation duration
+			}
 		};
 
 		interval = setInterval(updateData, 3000);
 
 		return () => clearInterval(interval);
 	}, [list]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
@@ -62,7 +92,12 @@ function Card({ data, title, subTitle }) {
 				</div>
 				{list.map((element, index) => {
 					return (
-						<div className={styles.tableRow} key={index}>
+						<div
+							className={`${styles.tableRow} ${
+								index === animateRowIndex ? styles.animateRow : ""
+							}`}
+							key={index}
+						>
 							<div className={styles.playerInfo}>
 								<div
 									className={
@@ -78,7 +113,9 @@ function Card({ data, title, subTitle }) {
 									<div>{index + 1}.</div>
 									{element.flag}
 								</div>
-
+								{element.rankChange && (
+									<div className={styles.rankChange}>{element.rankChange}</div>
+								)}
 								<div>({element.country})</div>
 								<div>{element.name}</div>
 							</div>
