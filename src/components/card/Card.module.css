@@ -108,6 +108,10 @@
 	font-size: 16px;
 }
 
+ul {
+	margin: 0;
+	padding: 0;
+}
 @keyframes moveUp {
 	0% {
 		transform: translateY(0);

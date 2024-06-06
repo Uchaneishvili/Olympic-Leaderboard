@@ -1,13 +1,18 @@
 import { BiatlhlonCardLine } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
+import { Reorder } from "framer-motion";
 
 function Card({ data, title, subTitle }) {
 	const [list, setList] = useState(data);
+	const [updatedList, setUpdatedList] = useState([]);
+	const [animation, setAnimation] = useState(true);
+
 	useEffect(() => {
 		let interval = 3000;
 
 		const updateData = () => {
+			setAnimation(true);
 			const updatedData = list.map((player) => {
 				const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
 				const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
@@ -37,13 +42,35 @@ function Card({ data, title, subTitle }) {
 				a.time.localeCompare(b.time)
 			);
 
-			setList(sortedData);
+			setUpdatedList(sortedData);
+
+			setTimeout(() => {
+				setAnimation(false);
+				setList(sortedData);
+			}, 1500);
+
+			// const prevList = list;
+			// sortedData.forEach((player, index) => {
+			// 	const prevIndex = prevList.findIndex((p) => p.name === player.name);
+
+			// 	// if (prevIndex > index) {
+			// 	// player.rankChange = "+";
+			// 	player.rankChangeAmount = prevIndex - index;
+
+			// 	player.position = (prevIndex - index) * 40;
+			// 	// } else if (prevIndex < index) {
+			// 	// player.rankChange = "-";
+			// 	// player.rankChangeAmount = index - prevIndex;
+			// 	// } else {
+			// 	// player.rankChange = "";
+			// }
+			// });
 		};
 
 		interval = setInterval(updateData, 3000);
-
 		return () => clearInterval(interval);
 	}, [list]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
@@ -60,34 +87,60 @@ function Card({ data, title, subTitle }) {
 						<div className={styles.dashedLine}></div>
 					</div>
 				</div>
-				{list.map((element, index) => {
-					return (
-						<div className={styles.tableRow} key={index}>
-							<div className={styles.playerInfo}>
-								<div
-									className={
-										index === 0
-											? styles.firstPlace
-											: index === 1
-											? styles.secondPlace
-											: index === 2
-											? styles.thirdPlace
-											: styles.ranking
-									}
-								>
-									<div>{index + 1}.</div>
-									{element.flag}
-								</div>
+				<Reorder.Group values={list} onReorder={setList}>
+					{list.map((element, index) => {
+						if (updatedList.length > 0) {
+							const newIndex = updatedList.findIndex(
+								(p) => p.name === element.name
+							);
 
-								<div>({element.country})</div>
-								<div>{element.name}</div>
-							</div>
-							<div className={styles.time}>
-								<div>{element.time}</div>
-							</div>
-						</div>
-					);
-				})}
+							const newTime = updatedList.filter(
+								(p) => p.name === element.name
+							);
+
+							element.rankChangeAmount = newIndex - index;
+							element.time = newTime[0].time;
+						}
+
+						return (
+							<Reorder.Item
+								className={styles.tableRow}
+								key={index}
+								layout
+								transition={{ duration: 0.5 }}
+								animate={{
+									x: 0,
+									y: animation && 40 * element.rankChangeAmount,
+									scale: 1,
+									rotate: 0,
+								}}
+							>
+								<div className={styles.playerInfo}>
+									<div
+										className={
+											index === 0
+												? styles.firstPlace
+												: index === 1
+												? styles.secondPlace
+												: index === 2
+												? styles.thirdPlace
+												: styles.ranking
+										}
+									>
+										<div>{index + 1}.</div>
+										{element.flag}
+									</div>
+
+									<div>({element.country})</div>
+									<div>{element.name}</div>
+								</div>
+								<div className={styles.time}>
+									<div>{element.time}</div>
+								</div>
+							</Reorder.Item>
+						);
+					})}
+				</Reorder.Group>
 			</div>
 		</div>
 	);
