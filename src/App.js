@@ -67,48 +67,48 @@ function App() {
 			subTitle: "100M R-1 GIRLS",
 			line: <BiatlhlonCardLine />,
 		},
-		// {
-		// 	data: biatlhonData,
-		// 	title: "CROSS COUNTRY SKIING",
-		// 	subTitle: "10 km Individual start free (boys)",
-		// 	line: <BiatlhlonCardLine />,
-		// },
-		// {
-		// 	data: biatlhonData,
-		// 	title: "ALPINE SKIING",
-		// 	subTitle: "Slalom (boys)",
-		// 	line: <BiatlhlonCardLine />,
-		// },
-		// {
-		// 	data: biatlhonData,
-		// 	title: "SNOWBOARD",
-		// 	subTitle: "Big Air (Boys)",
-		// 	line: <BiatlhlonCardLine />,
-		// },
-		// {
-		// 	data: biatlhonData,
-		// 	title: "FREESTYLE SKIING",
-		// 	subTitle: "Big Air (Boys)",
-		// 	line: <BiatlhlonCardLine />,
-		// },
-		// {
-		// 	data: biatlhonData,
-		// 	title: "FIGURE SKATING",
-		// 	subTitle: "Single Skating Free Skating (Boys)",
-		// 	line: <BiatlhlonCardLine />,
-		// },
-		// {
-		// 	data: biatlhonData,
-		// 	title: "SHORT TRACK",
-		// 	subTitle: "Boys 1500 m",
-		// 	line: <BiatlhlonCardLine />,
-		// },
-		// {
-		// 	data: biatlhonData,
-		// 	title: "SHORT TRACK",
-		// 	subTitle: "Boys 1500 m",
-		// 	line: <BiatlhlonCardLine />,
-		// },
+		{
+			data: biatlhonData,
+			title: "CROSS COUNTRY SKIING",
+			subTitle: "10 km Individual start free (boys)",
+			line: <BiatlhlonCardLine />,
+		},
+		{
+			data: biatlhonData,
+			title: "ALPINE SKIING",
+			subTitle: "Slalom (boys)",
+			line: <BiatlhlonCardLine />,
+		},
+		{
+			data: biatlhonData,
+			title: "SNOWBOARD",
+			subTitle: "Big Air (Boys)",
+			line: <BiatlhlonCardLine />,
+		},
+		{
+			data: biatlhonData,
+			title: "FREESTYLE SKIING",
+			subTitle: "Big Air (Boys)",
+			line: <BiatlhlonCardLine />,
+		},
+		{
+			data: biatlhonData,
+			title: "FIGURE SKATING",
+			subTitle: "Single Skating Free Skating (Boys)",
+			line: <BiatlhlonCardLine />,
+		},
+		{
+			data: biatlhonData,
+			title: "SHORT TRACK",
+			subTitle: "Boys 1500 m",
+			line: <BiatlhlonCardLine />,
+		},
+		{
+			data: biatlhonData,
+			title: "SHORT TRACK",
+			subTitle: "Boys 1500 m",
+			line: <BiatlhlonCardLine />,
+		},
 	];
 	return (
 		<div className="container">

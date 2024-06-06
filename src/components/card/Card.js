@@ -1,4 +1,4 @@
-import { BiatlhlonCardLine } from "../ui/icons/icons";
+import { ArrowDown, ArrowUp, BiatlhlonCardLine } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
 import { Reorder } from "framer-motion";
@@ -6,13 +6,9 @@ import { Reorder } from "framer-motion";
 function Card({ data, title, subTitle }) {
 	const [list, setList] = useState(data);
 	const [updatedList, setUpdatedList] = useState([]);
-	const [animation, setAnimation] = useState(true);
 
 	useEffect(() => {
-		let interval = 3000;
-
 		const updateData = () => {
-			setAnimation(true);
 			const updatedData = list.map((player) => {
 				const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
 				const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
@@ -43,31 +39,9 @@ function Card({ data, title, subTitle }) {
 			);
 
 			setUpdatedList(sortedData);
-
-			setTimeout(() => {
-				setAnimation(false);
-				setList(sortedData);
-			}, 1500);
-
-			// const prevList = list;
-			// sortedData.forEach((player, index) => {
-			// 	const prevIndex = prevList.findIndex((p) => p.name === player.name);
-
-			// 	// if (prevIndex > index) {
-			// 	// player.rankChange = "+";
-			// 	player.rankChangeAmount = prevIndex - index;
-
-			// 	player.position = (prevIndex - index) * 40;
-			// 	// } else if (prevIndex < index) {
-			// 	// player.rankChange = "-";
-			// 	// player.rankChangeAmount = index - prevIndex;
-			// 	// } else {
-			// 	// player.rankChange = "";
-			// }
-			// });
 		};
 
-		interval = setInterval(updateData, 3000);
+		const interval = setInterval(updateData, 3000);
 		return () => clearInterval(interval);
 	}, [list]);
 
@@ -110,7 +84,7 @@ function Card({ data, title, subTitle }) {
 								transition={{ duration: 0.5 }}
 								animate={{
 									x: 0,
-									y: animation && 40 * element.rankChangeAmount,
+									y: 40 * element.rankChangeAmount,
 									scale: 1,
 									rotate: 0,
 								}}
@@ -133,6 +107,15 @@ function Card({ data, title, subTitle }) {
 
 									<div>({element.country})</div>
 									<div>{element.name}</div>
+									<div>
+										{element.rankChangeAmount > 0 ? (
+											<ArrowDown />
+										) : element.rankChangeAmount < 0 ? (
+											<ArrowUp />
+										) : (
+											""
+										)}
+									</div>
 								</div>
 								<div className={styles.time}>
 									<div>{element.time}</div>
