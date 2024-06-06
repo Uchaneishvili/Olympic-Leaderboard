@@ -1,8 +1,9 @@
 .container {
 	background-color: #f5f7f7;
 	width: 437px;
-	height: 400px;
+	height: 395px;
 	border-radius: 20px;
+	z-index: auto;
 }
 
 .table {
@@ -28,16 +29,32 @@
 	align-items: center;
 }
 
-.ranking {
-	background-color: #e8bc4f;
+.ranking,
+.firstPlace,
+.secondPlace,
+.thirdPlace {
+	background-color: #7d94a533;
 	display: flex;
 	width: 60px;
 	height: 32px;
 	border-radius: 6px;
 	align-items: center;
 	justify-content: space-around;
-	color: #ffffff;
+	color: #7d94a5;
 	font-size: 16px;
+}
+
+.firstPlace {
+	background-color: #e8bc4f;
+	color: #ffffff;
+}
+.secondPlace {
+	background-color: #95999a;
+	color: #ffffff;
+}
+.thirdPlace {
+	background-color: #db8f5a;
+	color: #ffffff;
 }
 
 .title {

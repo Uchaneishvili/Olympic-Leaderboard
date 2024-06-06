@@ -1,11 +1,11 @@
-import { BiatlhlonCardLine, SlovakiaFlag } from "../ui/icons/icons";
+import { BiatlhlonCardLine } from "../ui/icons/icons";
 import styles from "./Card.module.css";
 
-function Card() {
+function Card({ data, title, subTitle }) {
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
-				<div>BIATLHLON</div>
+				<div>{title}</div>
 			</div>
 			<div className={styles.cardLineContainer}>
 				<BiatlhlonCardLine />
@@ -14,135 +14,39 @@ function Card() {
 				<div className={styles.subtitleContainer}>
 					<div className={styles.subtitleInnerContainer}>
 						<div className={styles.dashedLine}></div>
-						<div className={styles.subtitle}>100M R-1 GIRLS</div>
+						<div className={styles.subtitle}>{subTitle}</div>
 						<div className={styles.dashedLine}></div>
 					</div>
 				</div>
+				{data.map((element, index) => {
+					return (
+						<div className={styles.tableRow} key={index}>
+							<div className={styles.playerInfo}>
+								<div
+									className={
+										index === 0
+											? styles.firstPlace
+											: index === 1
+											? styles.secondPlace
+											: index === 2
+											? styles.thirdPlace
+											: styles.ranking
+									}
+								>
+									<div>{index + 1}.</div>
+									{element.flag}
+								</div>
 
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
+								<div>({element.country})</div>
+								<div>{element.name}</div>
+							</div>
+
+							<div className={styles.time}>
+								<div>{element.time}</div>
 							</div>
 						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
-							</div>
-						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
-
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
-							</div>
-						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
-
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
-							</div>
-						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
-
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
-							</div>
-						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
-
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
-							</div>
-						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
-
-				<div className={styles.tableRow}>
-					<div className={styles.playerInfo}>
-						<div className={styles.ranking}>
-							<div>1.</div>
-							<div>
-								<SlovakiaFlag />
-							</div>
-						</div>
-
-						<div>(SLO)</div>
-						<div>L.Repinc</div>
-					</div>
-
-					<div className={styles.time}>
-						<div>31:34.07</div>
-					</div>
-				</div>
+					);
+				})}
 			</div>
 		</div>
 	);
