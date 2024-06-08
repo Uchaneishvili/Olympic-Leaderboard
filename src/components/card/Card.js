@@ -6,10 +6,11 @@ import { Reorder } from "framer-motion";
 function Card({ data, title, subTitle, intervalTime, cardLine }) {
 	const [list, setList] = useState(data);
 	const [updatedList, setUpdatedList] = useState([]);
-	const [animating, setAnimating] = useState(false); // Track animation state
+	const [animating, setAnimating] = useState(true); // Track animation state
 
 	useEffect(() => {
 		const updateData = () => {
+			setAnimating(true);
 			const updatedData = list.map((player) => {
 				const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
 				const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
@@ -40,13 +41,27 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 			);
 
 			setUpdatedList(sortedData);
-			setAnimating(true); // Set animating to true before animation
 		};
 
 		const interval = setInterval(updateData, intervalTime * 2000);
 
-		return () => clearInterval(interval);
+		return () => {
+			clearInterval(interval);
+		};
 	}, [list, intervalTime]);
+
+	useEffect(() => {
+		const loadList = () => {
+			if (updatedList.length > 0) {
+				setAnimating(false);
+				setList(updatedList);
+			}
+		};
+		const interval = setInterval(loadList, 500);
+		return () => {
+			clearInterval(interval);
+		};
+	}, [animating]);
 
 	return (
 		<div className={styles.container}>
@@ -85,12 +100,13 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 								transition={{ duration: 0.5 }}
 								animate={{
 									x: 0,
-									y: 40 * element.rankChangeAmount,
+									y: animating && 40 * element.rankChangeAmount,
 									scale: 1,
 									rotate: 0,
-									opacity: animating ? 0.5 : 1, // Use the animatingOpacity state to set opacity
+									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1, // Use the animatingOpacity state to set opacity
 									transition: {
-										duration: 0.1,
+										duration: animating ? 0.5 : 0.1,
+										color: "red",
 										ease: "easeInOut",
 										opacity: { duration: 0.5 }, // Set duration for opacity transition
 									},
