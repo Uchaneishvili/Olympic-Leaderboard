@@ -1,14 +1,16 @@
-import { ArrowDown, ArrowUp, BiatlhlonCardLine } from "../ui/icons/icons";
+import { ArrowDown, ArrowUp } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
 import { Reorder } from "framer-motion";
 
-function Card({ data, title, subTitle, intervalTime }) {
+function Card({ data, title, subTitle, intervalTime, cardLine }) {
 	const [list, setList] = useState(data);
 	const [updatedList, setUpdatedList] = useState([]);
+	const [animating, setAnimating] = useState(true); // Track animation state
 
 	useEffect(() => {
 		const updateData = () => {
+			setAnimating(true);
 			const updatedData = list.map((player) => {
 				const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
 				const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
@@ -43,17 +45,30 @@ function Card({ data, title, subTitle, intervalTime }) {
 
 		const interval = setInterval(updateData, intervalTime * 2000);
 
-		return () => clearInterval(interval);
+		return () => {
+			clearInterval(interval);
+		};
 	}, [list, intervalTime]);
+
+	useEffect(() => {
+		const loadList = () => {
+			if (updatedList.length > 0) {
+				setAnimating(false);
+				setList(updatedList);
+			}
+		};
+		const interval = setInterval(loadList, 500);
+		return () => {
+			clearInterval(interval);
+		};
+	}, [animating]);
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
 				<div>{title}</div>
 			</div>
-			<div className={styles.cardLineContainer}>
-				<BiatlhlonCardLine />
-			</div>
+			<div className={styles.cardLineContainer}>{cardLine}</div>
 			<div className={styles.table}>
 				<div className={styles.subtitleContainer}>
 					<div className={styles.subtitleInnerContainer}>
@@ -85,9 +100,19 @@ function Card({ data, title, subTitle, intervalTime }) {
 								transition={{ duration: 0.5 }}
 								animate={{
 									x: 0,
-									y: 40 * element.rankChangeAmount,
+									y: animating && 40 * element.rankChangeAmount,
 									scale: 1,
 									rotate: 0,
+									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1, // Use the animatingOpacity state to set opacity
+									transition: {
+										duration: animating ? 0.5 : 0.1,
+										color: "red",
+										ease: "easeInOut",
+										opacity: { duration: 0.5 }, // Set duration for opacity transition
+									},
+								}}
+								onAnimationComplete={() => {
+									setAnimating(false); // Set animating to false after animation
 								}}
 							>
 								<div className={styles.playerInfo}>

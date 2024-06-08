@@ -63,7 +63,7 @@ export const Calendar = () => {
 	);
 };
 
-export const BiatlhlonCardLine = () => {
+export const RedCardLine = () => {
 	return (
 		<svg
 			width="389"
@@ -97,6 +97,107 @@ export const BiatlhlonCardLine = () => {
 	);
 };
 
+export const YellowCardLine = () => {
+	return (
+		<svg
+			width="389"
+			height="2"
+			viewBox="0 0 389 2"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<rect
+				y="2"
+				width="2"
+				height="389"
+				transform="rotate(-90 0 2)"
+				fill="url(#paint0_linear_1_1997)"
+			/>
+			<defs>
+				<linearGradient
+					id="paint0_linear_1_1997"
+					x1="1"
+					y1="2"
+					x2="1"
+					y2="391"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop stop-color="#E8BC4F" stop-opacity="0" />
+					<stop offset="0.505" stop-color="#E8BC4F" />
+					<stop offset="1" stop-color="#E8BC4F" stop-opacity="0" />
+				</linearGradient>
+			</defs>
+		</svg>
+	);
+};
+
+export const GreenCardLine = () => {
+	return (
+		<svg
+			width="389"
+			height="2"
+			viewBox="0 0 389 2"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<rect
+				y="2"
+				width="2"
+				height="389"
+				transform="rotate(-90 0 2)"
+				fill="url(#paint0_linear_1_1999)"
+			/>
+			<defs>
+				<linearGradient
+					id="paint0_linear_1_1999"
+					x1="1"
+					y1="2"
+					x2="1"
+					y2="391"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop stop-color="#57A870" stop-opacity="0" />
+					<stop offset="0.505" stop-color="#57A870" />
+					<stop offset="1" stop-color="#57A870" stop-opacity="0" />
+				</linearGradient>
+			</defs>
+		</svg>
+	);
+};
+
+export const BlueCardLine = () => {
+	return (
+		<svg
+			width="389"
+			height="2"
+			viewBox="0 0 389 2"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<rect
+				y="2"
+				width="2"
+				height="389"
+				transform="rotate(-90 0 2)"
+				fill="url(#paint0_linear_1_1998)"
+			/>
+			<defs>
+				<linearGradient
+					id="paint0_linear_1_1998"
+					x1="1"
+					y1="2"
+					x2="1"
+					y2="391"
+					gradientUnits="userSpaceOnUse"
+				>
+					<stop stop-color="#3F78A3" stop-opacity="0" />
+					<stop offset="0.505" stop-color="#3F78A3" />
+					<stop offset="1" stop-color="#3F78A3" stop-opacity="0" />
+				</linearGradient>
+			</defs>
+		</svg>
+	);
+};
 export const ArrowUp = () => {
 	return (
 		<svg
