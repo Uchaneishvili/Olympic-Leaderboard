@@ -2,6 +2,7 @@ import "./App.css";
 import Header from "./components/header/Header";
 import Card from "./components/card/Card";
 import { BiatlhlonCardLine } from "./components/ui/icons/icons";
+import HockeyCard from "./components/hockeyCard/HockeyCard";
 
 function App() {
 	const biatlhonData = [
@@ -60,54 +61,131 @@ function App() {
 		},
 	];
 
+	const hockeyBoysData = [
+		[
+			{
+				country: "Slovenia",
+				scores: [0, 0, 3, 2],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
+				),
+			},
+			{
+				country: "Switzerland",
+				scores: [0, 0, 1, 2],
+				flag: (
+					<img
+						className="flag"
+						alt="country-flag"
+						src="flags/Switzerland.png"
+					/>
+				),
+			},
+		],
+
+		[
+			{
+				country: "Finland",
+				scores: [6, 1, 3, 1],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Finland.png" />
+				),
+			},
+			{
+				country: "Norway",
+				scores: [7, 2, 1, 2],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Norway.png" />
+				),
+			},
+		],
+	];
+
+	const hockeyGirlsData = [
+		[
+			{
+				country: "SLOVAKIA",
+				scores: [0, 2, 2, 2],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
+				),
+			},
+			{
+				country: "LATVIA",
+				scores: [0, 1, 2, 2],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Latvia.png" />
+				),
+			},
+		],
+
+		[
+			{
+				country: "Finland",
+				scores: [0, 0, 2, 1],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Finland.png" />
+				),
+			},
+			{
+				country: "Norway",
+				scores: [0, 0, 1, 1],
+				flag: (
+					<img className="flag" alt="country-flag" src="flags/Norway.png" />
+				),
+			},
+		],
+	];
+
 	const cardListData = [
 		{
 			data: biatlhonData,
 			title: "BIATLHLON",
 			subTitle: "100M R-1 GIRLS",
 			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "CROSS COUNTRY SKIING",
 			subTitle: "10 km Individual start free (boys)",
 			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "ALPINE SKIING",
 			subTitle: "Slalom (boys)",
 			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "SNOWBOARD",
 			subTitle: "Big Air (Boys)",
 			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "FREESTYLE SKIING",
 			subTitle: "Big Air (Boys)",
 			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "FIGURE SKATING",
 			subTitle: "Single Skating Free Skating (Boys)",
 			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "SHORT TRACK",
 			subTitle: "Boys 1500 m",
 			line: <BiatlhlonCardLine />,
-		},
-		{
-			data: biatlhonData,
-			title: "SHORT TRACK",
-			subTitle: "Boys 1500 m",
-			line: <BiatlhlonCardLine />,
+			interval: Math.floor(Math.random() * 3 + 1),
 		},
 	];
 	return (
@@ -124,9 +202,12 @@ function App() {
 							title={element.title}
 							subTitle={element.subTitle}
 							line={element.line}
+							intervalTime={element.interval}
 						/>
 					);
 				})}
+
+				<HockeyCard boysData={hockeyBoysData} girlsData={hockeyGirlsData} />
 			</div>
 		</div>
 	);
