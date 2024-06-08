@@ -131,11 +131,12 @@ ul {
 }
 
 @media (max-width: 767px) {
-	.cardContainer {
+	.container {
 		width: 100%;
 	}
 
 	.table {
 		width: 100%;
+		margin: 0;
 	}
 }

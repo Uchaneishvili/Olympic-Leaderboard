@@ -39,4 +39,8 @@ body {
 	.container {
 		padding: 0;
 	}
+
+	.innerContainer {
+		row-gap: 30px;
+	}
 }
