@@ -117,7 +117,15 @@ ul {
 	color: #7d94a5;
 }
 
-.time {
+.result {
 	color: #2a3342;
 	font-weight: 700;
+}
+
+.up {
+	color: #57a870;
+}
+
+.down {
+	color: #d64540;
 }

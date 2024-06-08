@@ -8,187 +8,96 @@ import {
 	YellowCardLine,
 } from "./components/ui/icons/icons";
 import HockeyCard from "./components/hockeyCard/HockeyCard";
+import {
+	biatlhonDataGirls,
+	biatlhonDataBoys,
+	hockeyBoysData,
+	hockeyGirlsData,
+	crossCountryDataBoys,
+	crossCountryDataGirls,
+	alpineSkiingBoys,
+	bigAirBoys,
+	bigAirGirls,
+	freestyleBoys,
+	freestyleGirls,
+	figureSkatingBoys,
+	figureSkatingGirls,
+	shortTrackBoy,
+	shortTrackGirl,
+	snowBoardGirls,
+	snowBoardingBoys,
+} from "./data";
 
 function App() {
-	const biatlhonData = [
-		{
-			country: "SLO",
-			flag: (
-				<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
-			),
-			name: "L. Repinc",
-			time: "31:34.07",
-			rankChangeAmount: 0,
-		},
-		{
-			country: "POL",
-			flag: <img className="flag" alt="country-flag" src="flags/Poland.png" />,
-			name: "K. Badacz",
-			time: "31:34.12",
-			rankChangeAmount: 0,
-		},
-		{
-			country: "SVK",
-			flag: (
-				<img className="flag" alt="country-flag" src="flags/Slovakia.png" />
-			),
-			name: "J. Borgula",
-			time: "31:34:20",
-			rankChangeAmount: 0,
-		},
-		{
-			country: "SWE",
-			flag: <img className="flag" alt="country-flag" src="flags/Sweden.png" />,
-			name: "S. Anderson",
-			time: "31:34.39",
-			rankChangeAmount: 0,
-		},
-		{
-			country: "FRA",
-			flag: <img className="flag" alt="country-flag" src="flags/France.png" />,
-			name: "L. Thievent",
-			time: "31:34.59",
-			rankChangeAmount: 0,
-		},
-		{
-			country: "ITA",
-			flag: <img className="flag" alt="country-flag" src="flags/Italy.png" />,
-			name: "E. Mondinelli",
-			time: "31:35.05",
-			rankChangeAmount: 0,
-		},
-		{
-			country: "AUT",
-			flag: <img className="flag" alt="country-flag" src="flags/Austria.png" />,
-			name: "V. Olivier",
-			time: "31:35.10",
-			rankChangeAmount: 0,
-		},
-	];
-
-	const hockeyBoysData = [
-		[
-			{
-				country: "Slovenia",
-				scores: [0, 0, 3, 2],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
-				),
-			},
-			{
-				country: "Switzerland",
-				scores: [0, 0, 1, 2],
-				flag: (
-					<img
-						className="flag"
-						alt="country-flag"
-						src="flags/Switzerland.png"
-					/>
-				),
-			},
-		],
-
-		[
-			{
-				country: "Finland",
-				scores: [6, 1, 3, 1],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Finland.png" />
-				),
-			},
-			{
-				country: "Norway",
-				scores: [7, 2, 1, 2],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Norway.png" />
-				),
-			},
-		],
-	];
-
-	const hockeyGirlsData = [
-		[
-			{
-				country: "SLOVAKIA",
-				scores: [0, 2, 2, 2],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
-				),
-			},
-			{
-				country: "LATVIA",
-				scores: [0, 1, 2, 2],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Latvia.png" />
-				),
-			},
-		],
-
-		[
-			{
-				country: "Finland",
-				scores: [0, 0, 2, 1],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Finland.png" />
-				),
-			},
-			{
-				country: "Norway",
-				scores: [0, 0, 1, 1],
-				flag: (
-					<img className="flag" alt="country-flag" src="flags/Norway.png" />
-				),
-			},
-		],
-	];
-
 	const cardListData = [
 		{
-			data: biatlhonData,
+			boysData: biatlhonDataBoys,
+			girlsData: biatlhonDataGirls,
+			type: "time",
 			title: "BIATLHLON",
-			subTitle: "100M R-1 GIRLS",
+			subTitle: ["100M R-1 GIRLS", "100M R-1 BOYS"],
 			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
-			data: biatlhonData,
+			boysData: crossCountryDataBoys,
+			girlsData: crossCountryDataGirls,
+			type: "time",
 			title: "CROSS COUNTRY SKIING",
-			subTitle: "10 km Individual start free (boys)",
+			subTitle: [
+				"10 KM INDIVIDUAL START FREE (BOYS)",
+				"10 KM INDIVIDUAL START CLASSIC (GIRLS)",
+			],
 			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
-			data: biatlhonData,
+			boysData: alpineSkiingBoys,
+			girlsData: alpineSkiingBoys,
 			title: "ALPINE SKIING",
-			subTitle: "Slalom (boys)",
+			type: "time",
+			subTitle: ["SLALOM (BOYS)", "SLALOM (GIRLS)"],
 			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
-			data: biatlhonData,
+			boysData: snowBoardingBoys,
+			girlsData: snowBoardGirls,
 			title: "SNOWBOARD",
-			subTitle: "Big Air (Boys)",
+			type: "ranking",
+			subTitle: ["BIG AIR (BOYS)", "BIG AIR (GIRLS)"],
 			line: <BlueCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
-			data: biatlhonData,
+			boysData: freestyleBoys,
+			girlsData: freestyleGirls,
 			title: "FREESTYLE SKIING",
-			subTitle: "Big Air (Boys)",
+			type: "point",
+			subTitle: ["BIG AIR (BOYS)", "BIG AIR (GIRLS)"],
+			doubledDigit: false,
 			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
-			data: biatlhonData,
+			boysData: figureSkatingBoys,
+			girlsData: figureSkatingGirls,
 			title: "FIGURE SKATING",
-			subTitle: "Single Skating Free Skating (Boys)",
+			type: "point",
+			doubledDigit: true,
+			subTitle: [
+				"SINGLE SKATING FREE SKATING (BOYS)",
+				"SINGLE SKATING FREE SKATING (GIRLS)",
+			],
 			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
-			data: biatlhonData,
+			boysData: shortTrackBoy,
+			girlsData: shortTrackGirl,
 			title: "SHORT TRACK",
-			subTitle: "Boys 1500 m",
+			subTitle: ["BOYS 1500M", "GIRLS 1500M"],
+			type: "time",
 			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
@@ -203,11 +112,14 @@ function App() {
 					return (
 						<Card
 							key={index}
-							data={element.data}
+							boysData={element.boysData}
+							girlsData={element.girlsData}
 							title={element.title}
 							subTitle={element.subTitle}
 							line={element.line}
+							type={element.type}
 							intervalTime={element.interval}
+							doubledDigit={element.doubledDigit || false}
 							cardLine={element.line}
 						/>
 					);
