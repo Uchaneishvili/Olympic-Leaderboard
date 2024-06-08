@@ -122,9 +122,9 @@ export const YellowCardLine = () => {
 					y2="391"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#E8BC4F" stop-opacity="0" />
-					<stop offset="0.505" stop-color="#E8BC4F" />
-					<stop offset="1" stop-color="#E8BC4F" stop-opacity="0" />
+					<stop stopColor="#E8BC4F" stopOpacity="0" />
+					<stop offset="0.505" stopColor="#E8BC4F" />
+					<stop offset="1" stopColor="#E8BC4F" stopOpacity="0" />
 				</linearGradient>
 			</defs>
 		</svg>
@@ -156,9 +156,9 @@ export const GreenCardLine = () => {
 					y2="391"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#57A870" stop-opacity="0" />
-					<stop offset="0.505" stop-color="#57A870" />
-					<stop offset="1" stop-color="#57A870" stop-opacity="0" />
+					<stop stopColor="#57A870" stopOpacity="0" />
+					<stop offset="0.505" stopColor="#57A870" />
+					<stop offset="1" stopColor="#57A870" stopOpacity="0" />
 				</linearGradient>
 			</defs>
 		</svg>
@@ -190,9 +190,9 @@ export const BlueCardLine = () => {
 					y2="391"
 					gradientUnits="userSpaceOnUse"
 				>
-					<stop stop-color="#3F78A3" stop-opacity="0" />
-					<stop offset="0.505" stop-color="#3F78A3" />
-					<stop offset="1" stop-color="#3F78A3" stop-opacity="0" />
+					<stop stopColor="#3F78A3" stopOpacity="0" />
+					<stop offset="0.505" stopColor="#3F78A3" />
+					<stop offset="1" stopColor="#3F78A3" stopOpacity="0" />
 				</linearGradient>
 			</defs>
 		</svg>
@@ -210,10 +210,10 @@ export const ArrowUp = () => {
 			<path
 				d="M13.28 10.0333L8.9333 5.68667C8.41997 5.17333 7.57997 5.17333 7.06664 5.68667L2.71997 10.0333"
 				stroke="#57A870"
-				stroke-width="2"
-				stroke-miterlimit="10"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeMiterlimit="10"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);
@@ -231,10 +231,10 @@ export const ArrowDown = () => {
 			<path
 				d="M13.28 5.96667L8.9333 10.3133C8.41997 10.8267 7.57997 10.8267 7.06664 10.3133L2.71997 5.96667"
 				stroke="#D64540"
-				stroke-width="2"
-				stroke-miterlimit="10"
-				stroke-linecap="round"
-				stroke-linejoin="round"
+				strokeWidth="2"
+				strokeMiterlimit="10"
+				strokeLinecap="round"
+				strokeLinejoin="round"
 			/>
 		</svg>
 	);
