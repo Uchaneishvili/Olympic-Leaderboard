@@ -316,6 +316,7 @@ function Card({
 						return (
 							<Reorder.Item
 								className={styles.tableRow}
+								drag={false}
 								key={index}
 								layout
 								transition={{ duration: 0.5 }}
