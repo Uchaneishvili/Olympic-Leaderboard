@@ -4,17 +4,14 @@ body {
 }
 
 .container {
-	padding: 25px 60px 0px 60px;
-}
-
-header {
-	margin-bottom: 40px;
+	padding: 15px 60px 0px 60px;
 }
 
 .innerContainer {
 	display: flex;
 	gap: 10px;
-	row-gap: 20px;
+	row-gap: 10px;
+	margin-top: 20px;
 	flex-wrap: wrap;
 }
 

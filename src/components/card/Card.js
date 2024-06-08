@@ -1,12 +1,13 @@
-import { BiatlhlonCardLine } from "../ui/icons/icons";
+import { ArrowDown, ArrowUp, BiatlhlonCardLine } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
+import { Reorder } from "framer-motion";
 
-function Card({ data, title, subTitle }) {
+function Card({ data, title, subTitle, intervalTime }) {
 	const [list, setList] = useState(data);
-	useEffect(() => {
-		let interval = 3000;
+	const [updatedList, setUpdatedList] = useState([]);
 
+	useEffect(() => {
 		const updateData = () => {
 			const updatedData = list.map((player) => {
 				const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
@@ -37,13 +38,14 @@ function Card({ data, title, subTitle }) {
 				a.time.localeCompare(b.time)
 			);
 
-			setList(sortedData);
+			setUpdatedList(sortedData);
 		};
 
-		interval = setInterval(updateData, 3000);
+		const interval = setInterval(updateData, intervalTime * 2000);
 
 		return () => clearInterval(interval);
-	}, [list]);
+	}, [list, intervalTime]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
@@ -60,34 +62,140 @@ function Card({ data, title, subTitle }) {
 						<div className={styles.dashedLine}></div>
 					</div>
 				</div>
-				{list.map((element, index) => {
-					return (
-						<div className={styles.tableRow} key={index}>
-							<div className={styles.playerInfo}>
-								<div
-									className={
-										index === 0
-											? styles.firstPlace
-											: index === 1
-											? styles.secondPlace
-											: index === 2
-											? styles.thirdPlace
-											: styles.ranking
-									}
-								>
-									<div>{index + 1}.</div>
-									{element.flag}
-								</div>
+				<Reorder.Group values={list} onReorder={setList}>
+					{list.map((element, index) => {
+						if (updatedList.length > 0) {
+							const newIndex = updatedList.findIndex(
+								(p) => p.name === element.name
+							);
 
-								<div>({element.country})</div>
-								<div>{element.name}</div>
-							</div>
-							<div className={styles.time}>
-								<div>{element.time}</div>
-							</div>
-						</div>
-					);
-				})}
+							const newTime = updatedList.filter(
+								(p) => p.name === element.name
+							);
+
+							element.rankChangeAmount = newIndex - index;
+							element.time = newTime[0].time;
+						}
+
+						return (
+							<Reorder.Item
+								className={styles.tableRow}
+								key={index}
+								layout
+								transition={{ duration: 0.5 }}
+								animate={{
+									x: 0,
+									y: 40 * element.rankChangeAmount,
+									scale: 1,
+									rotate: 0,
+								}}
+							>
+								<div className={styles.playerInfo}>
+									<div
+										className={
+											index === 0
+												? styles.firstPlace
+												: index === 1
+												? styles.secondPlace
+												: index === 2
+												? styles.thirdPlace
+												: styles.ranking
+										}
+									>
+										<div>{index + 1}.</div>
+										{element.flag}
+									</div>
+
+									<div className={styles.country}>({element.country})</div>
+									<div>{element.name}</div>
+									<div>
+										{element.rankChangeAmount > 0 ? (
+											<ArrowDown />
+										) : element.rankChangeAmount < 0 ? (
+											<ArrowUp />
+										) : (
+											""
+										)}
+									</div>
+								</div>
+								<div className={styles.time}>
+									<div>{element.time}</div>
+								</div>
+							</Reorder.Item>
+						);
+					})}
+				</Reorder.Group>
+
+				<div className={styles.subtitleContainer}>
+					<div className={styles.subtitleInnerContainer}>
+						<div className={styles.dashedLine}></div>
+						<div className={styles.subtitle}>{subTitle}</div>
+						<div className={styles.dashedLine}></div>
+					</div>
+				</div>
+				<Reorder.Group values={list} onReorder={setList}>
+					{list.map((element, index) => {
+						if (updatedList.length > 0) {
+							const newIndex = updatedList.findIndex(
+								(p) => p.name === element.name
+							);
+
+							const newTime = updatedList.filter(
+								(p) => p.name === element.name
+							);
+
+							element.rankChangeAmount = newIndex - index;
+							element.time = newTime[0].time;
+						}
+
+						return (
+							<Reorder.Item
+								className={styles.tableRow}
+								key={index}
+								layout
+								transition={{ duration: 0.5 }}
+								animate={{
+									x: 0,
+									y: 40 * element.rankChangeAmount,
+									scale: 1,
+									rotate: 0,
+								}}
+							>
+								<div className={styles.playerInfo}>
+									<div
+										className={
+											index === 0
+												? styles.firstPlace
+												: index === 1
+												? styles.secondPlace
+												: index === 2
+												? styles.thirdPlace
+												: styles.ranking
+										}
+									>
+										<div>{index + 1}.</div>
+										{element.flag}
+									</div>
+
+									<div>({element.country})</div>
+									<div>{element.name}</div>
+									<div>
+										{element.rankChangeAmount > 0 ? (
+											<ArrowDown />
+										) : element.rankChangeAmount < 0 ? (
+											<ArrowUp />
+										) : (
+											""
+										)}
+									</div>
+								</div>
+								<div className={styles.time}>
+									<div>{element.time}</div>
+								</div>
+							</Reorder.Item>
+						);
+					})}
+				</Reorder.Group>
 			</div>
 		</div>
 	);

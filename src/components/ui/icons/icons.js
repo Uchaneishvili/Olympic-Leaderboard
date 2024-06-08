@@ -2,7 +2,7 @@ export const Logo = () => {
 	return (
 		<svg
 			width="197"
-			height="56"
+			height="45"
 			viewBox="0 0 197 56"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
@@ -93,6 +93,48 @@ export const BiatlhlonCardLine = () => {
 					<stop offset="1" stopColor="#D64540" stopOpacity="0" />
 				</linearGradient>
 			</defs>
+		</svg>
+	);
+};
+
+export const ArrowUp = () => {
+	return (
+		<svg
+			width="16"
+			height="16"
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M13.28 10.0333L8.9333 5.68667C8.41997 5.17333 7.57997 5.17333 7.06664 5.68667L2.71997 10.0333"
+				stroke="#57A870"
+				stroke-width="2"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
+	);
+};
+
+export const ArrowDown = () => {
+	return (
+		<svg
+			width="16"
+			height="16"
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<path
+				d="M13.28 5.96667L8.9333 10.3133C8.41997 10.8267 7.57997 10.8267 7.06664 10.3133L2.71997 5.96667"
+				stroke="#D64540"
+				stroke-width="2"
+				stroke-miterlimit="10"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
 		</svg>
 	);
 };
