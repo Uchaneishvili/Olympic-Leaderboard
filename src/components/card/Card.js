@@ -2,6 +2,7 @@ import { ArrowDown, ArrowUp } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
 import { Reorder } from "framer-motion";
+import moment from "moment";
 
 function Card({ data, title, subTitle, intervalTime, cardLine }) {
 	const [list, setList] = useState(data);
@@ -36,14 +37,17 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 				return list[randomIndex] === player ? updatedPlayer : player;
 			});
 
-			const sortedData = updatedData.sort((a, b) =>
-				a.time.localeCompare(b.time)
-			);
+			const sortedData = updatedData.sort((a, b) => {
+				const aTime = moment(a.time, "mm:ss.SS");
+				const bTime = moment(b.time, "mm:ss.SS");
+
+				return aTime.valueOf() - bTime.valueOf();
+			});
 
 			setUpdatedList(sortedData);
 		};
 
-		const interval = setInterval(updateData, intervalTime * 2000);
+		const interval = setInterval(updateData, 3000);
 
 		return () => {
 			clearInterval(interval);
@@ -53,15 +57,20 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 	useEffect(() => {
 		const loadList = () => {
 			if (updatedList.length > 0) {
-				setAnimating(false);
-				setList(updatedList);
+				const sortedData = updatedList.sort((a, b) => {
+					const aTime = moment(a.time, "mm:ss.SS");
+					const bTime = moment(b.time, "mm:ss.SS");
+
+					return aTime.valueOf() - bTime.valueOf();
+				});
+				setList(sortedData);
 			}
 		};
-		const interval = setInterval(loadList, 500);
+		const interval = setInterval(loadList, 2000);
 		return () => {
 			clearInterval(interval);
 		};
-	}, [animating]);
+	}, [animating, updatedList]);
 
 	return (
 		<div className={styles.container}>
@@ -88,7 +97,8 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 								(p) => p.name === element.name
 							);
 
-							element.rankChangeAmount = newIndex - index;
+							element.rankChangeAmount = index - newIndex;
+
 							element.time = newTime[0].time;
 						}
 
@@ -97,22 +107,16 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 								className={styles.tableRow}
 								key={index}
 								layout
-								transition={{ duration: 0.5 }}
+								transition={{ duration: 2 }}
 								animate={{
 									x: 0,
-									y: animating && 40 * element.rankChangeAmount,
+									y: animating ? -40 * element.rankChangeAmount : 0,
 									scale: 1,
 									rotate: 0,
-									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1, // Use the animatingOpacity state to set opacity
-									transition: {
-										duration: animating ? 0.5 : 0.1,
-										color: "red",
-										ease: "easeInOut",
-										opacity: { duration: 0.5 }, // Set duration for opacity transition
-									},
+									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1,
 								}}
 								onAnimationComplete={() => {
-									setAnimating(false); // Set animating to false after animation
+									setAnimating(false);
 								}}
 							>
 								<div className={styles.playerInfo}>
@@ -135,9 +139,9 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 									<div>{element.name}</div>
 									<div>
 										{element.rankChangeAmount > 0 ? (
-											<ArrowDown />
-										) : element.rankChangeAmount < 0 ? (
 											<ArrowUp />
+										) : element.rankChangeAmount < 0 ? (
+											<ArrowDown />
 										) : (
 											""
 										)}
@@ -181,10 +185,14 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 								transition={{ duration: 0.5 }}
 								animate={{
 									x: 0,
-									y: 40 * element.rankChangeAmount,
+									y: animating ? -(40 * element.rankChangeAmount) : 0,
 									scale: 1,
 									rotate: 0,
+									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1,
 								}}
+								// onAnimationComplete={() => {
+								// 	setAnimating(false); // Set animating to false after animation
+								// }}
 							>
 								<div className={styles.playerInfo}>
 									<div
