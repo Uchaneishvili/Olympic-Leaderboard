@@ -1,76 +1,153 @@
 import { ArrowDown, ArrowUp } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
-import { Reorder } from "framer-motion";
+import { Reorder, addPointerInfo } from "framer-motion";
 import moment from "moment";
 
-function Card({ data, title, subTitle, intervalTime, cardLine }) {
-	const [list, setList] = useState(data);
-	const [updatedList, setUpdatedList] = useState([]);
-	const [animating, setAnimating] = useState(true); // Track animation state
+function Card({
+	boysData,
+	girlsData,
+	title,
+	subTitle,
+	intervalTime,
+	cardLine,
+	type,
+	doubledDigit,
+}) {
+	const [boys, setBoys] = useState(boysData);
+	const [girls, setGirls] = useState(girlsData);
+	const [updatedBoys, setUpdatedBoys] = useState([]);
+	const [updatedGirls, setUpdatedGirls] = useState([]);
+	const [animatingBoys, setAnimatingBoys] = useState(true);
+	const [animatingGirls, setAnimatingGirls] = useState(true);
 
 	useEffect(() => {
-		const updateData = () => {
-			setAnimating(true);
-			const updatedData = list.map((player) => {
-				const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
-				const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
-				const randomSeconds = Math.floor(
-					(randomTimeMilliseconds % 60000) / 1000
-				);
-				const randomMilliseconds = Math.floor(
-					(randomTimeMilliseconds % 1000) / 10
-				);
+		if (type === "time") {
+			const updateData = (data, setData, setAnimating) => {
+				setAnimating(true);
+				const updatedData = data.map((player) => {
+					const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
+					const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
+					const randomSeconds = Math.floor(
+						(randomTimeMilliseconds % 60000) / 1000
+					);
+					const randomMilliseconds = Math.floor(
+						(randomTimeMilliseconds % 1000) / 10
+					);
 
-				const formattedTime = `${randomMinutes
-					.toString()
-					.padStart(2, "0")}:${randomSeconds
-					.toString()
-					.padStart(2, "0")}.${randomMilliseconds.toString().padStart(2, "0")}`;
+					const formattedTime = `${randomMinutes
+						.toString()
+						.padStart(2, "0")}:${randomSeconds
+						.toString()
+						.padStart(2, "0")}.${randomMilliseconds
+						.toString()
+						.padStart(2, "0")}`;
 
-				const updatedPlayer = {
-					...player,
-					time: formattedTime,
-				};
+					const updatedPlayer = {
+						...player,
+						time: formattedTime,
+					};
 
-				const randomIndex = Math.floor(Math.random() * list.length);
-				return list[randomIndex] === player ? updatedPlayer : player;
-			});
+					const randomIndex = Math.floor(Math.random() * data.length);
+					return data[randomIndex] === player ? updatedPlayer : player;
+				});
 
-			const sortedData = updatedData.sort((a, b) => {
-				const aTime = moment(a.time, "mm:ss.SS");
-				const bTime = moment(b.time, "mm:ss.SS");
-
-				return aTime.valueOf() - bTime.valueOf();
-			});
-
-			setUpdatedList(sortedData);
-		};
-
-		const interval = setInterval(updateData, 3000);
-
-		return () => {
-			clearInterval(interval);
-		};
-	}, [list, intervalTime]);
-
-	useEffect(() => {
-		const loadList = () => {
-			if (updatedList.length > 0) {
-				const sortedData = updatedList.sort((a, b) => {
+				const sortedData = updatedData.sort((a, b) => {
 					const aTime = moment(a.time, "mm:ss.SS");
 					const bTime = moment(b.time, "mm:ss.SS");
 
 					return aTime.valueOf() - bTime.valueOf();
 				});
-				setList(sortedData);
-			}
-		};
-		const interval = setInterval(loadList, 2000);
-		return () => {
-			clearInterval(interval);
-		};
-	}, [animating, updatedList]);
+
+				setData(sortedData);
+			};
+
+			const interval1 = setInterval(
+				() => updateData(boys, setUpdatedBoys, setAnimatingBoys),
+				3000 * intervalTime
+			);
+			const interval2 = setInterval(
+				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
+				3500 * intervalTime
+			);
+
+			return () => {
+				clearInterval(interval1);
+				clearInterval(interval2);
+			};
+		} else if (type === "ranking") {
+			const updateData = (data, setData, setAnimating) => {
+				setAnimating(true);
+				const updatedData = data.map((player) => {
+					const randomId = Math.floor(Math.random() * 900000) + 100000; // Generate a random 6-digit ID
+
+					const updatedPlayer = {
+						...player,
+						id: randomId.toString().padStart(6, "0"), // Convert to string and pad with leading zeros
+					};
+
+					const randomIndex = Math.floor(Math.random() * data.length);
+					return data[randomIndex] === player ? updatedPlayer : player;
+				});
+
+				const sortedData = updatedData.sort((a, b) => b.id - a.id); // Sort by ID
+
+				setData(sortedData);
+			};
+
+			const interval1 = setInterval(
+				() => updateData(boys, setUpdatedBoys, setAnimatingBoys),
+				3000 * intervalTime
+			);
+			const interval2 = setInterval(
+				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
+				3500 * intervalTime
+			);
+
+			return () => {
+				clearInterval(interval1);
+				clearInterval(interval2);
+			};
+		} else if (type === "point") {
+			const updateData = (data, setData, setAnimating) => {
+				setAnimating(true);
+				const updatedData = data.map((player) => {
+					const minValue = 124.37;
+					const maxValue = 238.13;
+					const randomPercentage =
+						Math.random() * (maxValue - minValue) + minValue;
+
+					const updatedPlayer = {
+						...player,
+						point: randomPercentage.toFixed(2),
+					};
+
+					const randomIndex = Math.floor(Math.random() * data.length);
+					return data[randomIndex] === player ? updatedPlayer : player;
+				});
+
+				const sortedData = updatedData.sort(
+					(a, b) => parseFloat(b.point) - parseFloat(a.point)
+				);
+
+				setData(sortedData);
+			};
+
+			const interval1 = setInterval(
+				() => updateData(boys, setUpdatedBoys, setAnimatingBoys),
+				3000 * intervalTime
+			);
+			const interval2 = setInterval(
+				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
+				3500 * intervalTime
+			);
+
+			return () => {
+				clearInterval(interval1);
+				clearInterval(interval2);
+			};
+		}
+	}, [girls, boys, intervalTime, type]);
 
 	return (
 		<div className={styles.container}>
@@ -82,41 +159,62 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 				<div className={styles.subtitleContainer}>
 					<div className={styles.subtitleInnerContainer}>
 						<div className={styles.dashedLine}></div>
-						<div className={styles.subtitle}>{subTitle}</div>
+						<div className={styles.subtitle}>{subTitle[0]}</div>
 						<div className={styles.dashedLine}></div>
 					</div>
 				</div>
-				<Reorder.Group values={list} onReorder={setList}>
-					{list.map((element, index) => {
-						if (updatedList.length > 0) {
-							const newIndex = updatedList.findIndex(
+				<Reorder.Group values={boys} onReorder={setBoys}>
+					{boys.map((element, index) => {
+						if (updatedBoys.length > 0) {
+							const newIndex = updatedBoys.findIndex(
 								(p) => p.name === element.name
 							);
 
-							const newTime = updatedList.filter(
+							const newTime = updatedBoys.filter(
 								(p) => p.name === element.name
 							);
 
 							element.rankChangeAmount = index - newIndex;
 
-							element.time = newTime[0].time;
+							if (element.time) {
+								element.time = newTime[0].time;
+							} else if (element.point) {
+								element.point = newTime[0].point;
+							}
 						}
 
 						return (
 							<Reorder.Item
+								drag={false}
 								className={styles.tableRow}
 								key={index}
 								layout
 								transition={{ duration: 2 }}
 								animate={{
 									x: 0,
-									y: animating ? -40 * element.rankChangeAmount : 0,
+									y: animatingBoys ? -40 * element.rankChangeAmount : 0,
 									scale: 1,
 									rotate: 0,
-									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1,
+									opacity: element.rankChangeAmount !== 0 ? 0 : 1,
 								}}
 								onAnimationComplete={() => {
-									setAnimating(false);
+									setAnimatingBoys(false);
+
+									const sortedData = updatedBoys.sort((a, b) => {
+										if (type === "time") {
+											const aTime = moment(a.time, "mm:ss.SS");
+											const bTime = moment(b.time, "mm:ss.SS");
+
+											return aTime.valueOf() - bTime.valueOf();
+										} else if (type === "ranking") {
+											return b.id - a.id;
+										} else if (type === "point") {
+											return b.point - a.point;
+										}
+									});
+									if (sortedData.length > 0) {
+										setBoys(sortedData);
+									}
 								}}
 							>
 								<div className={styles.playerInfo}>
@@ -136,7 +234,17 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 									</div>
 
 									<div className={styles.country}>({element.country})</div>
-									<div>{element.name}</div>
+									<div
+										className={
+											element.rankChangeAmount > 0
+												? styles.up
+												: element.rankChangeAmount < 0
+												? styles.down
+												: ""
+										}
+									>
+										{element.name}
+									</div>
 									<div>
 										{element.rankChangeAmount > 0 ? (
 											<ArrowUp />
@@ -147,8 +255,32 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 										)}
 									</div>
 								</div>
-								<div className={styles.time}>
-									<div>{element.time}</div>
+								<div
+									className={`${styles.time} ${
+										element.rankChangeAmount > 0
+											? styles.up
+											: element.rankChangeAmount < 0
+											? styles.down
+											: ""
+									}`}
+								>
+									<div
+										className={`${styles.result} ${
+											element.rankChangeAmount > 0
+												? styles.up
+												: element.rankChangeAmount < 0
+												? styles.down
+												: ""
+										}`}
+									>
+										{element.time && <div>{element.time}</div>}
+										{element.point &&
+											(doubledDigit ? (
+												<div>{parseFloat(element.point).toFixed(2)}</div>
+											) : (
+												<div>{parseFloat(element.point).toFixed(1)}</div>
+											))}
+									</div>
 								</div>
 							</Reorder.Item>
 						);
@@ -158,23 +290,27 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 				<div className={styles.subtitleContainer}>
 					<div className={styles.subtitleInnerContainer}>
 						<div className={styles.dashedLine}></div>
-						<div className={styles.subtitle}>{subTitle}</div>
+						<div className={styles.subtitle}>{subTitle[1]}</div>
 						<div className={styles.dashedLine}></div>
 					</div>
 				</div>
-				<Reorder.Group values={list} onReorder={setList}>
-					{list.map((element, index) => {
-						if (updatedList.length > 0) {
-							const newIndex = updatedList.findIndex(
+				<Reorder.Group values={girls} onReorder={setGirls}>
+					{girls.map((element, index) => {
+						if (updatedGirls.length > 0) {
+							const newIndex = updatedGirls.findIndex(
 								(p) => p.name === element.name
 							);
 
-							const newTime = updatedList.filter(
+							const newTime = updatedGirls.filter(
 								(p) => p.name === element.name
 							);
+							element.rankChangeAmount = index - newIndex;
 
-							element.rankChangeAmount = newIndex - index;
-							element.time = newTime[0].time;
+							if (element.time) {
+								element.time = newTime[0].time;
+							} else if (element.point) {
+								element.point = newTime[0].point;
+							}
 						}
 
 						return (
@@ -185,14 +321,29 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 								transition={{ duration: 0.5 }}
 								animate={{
 									x: 0,
-									y: animating ? -(40 * element.rankChangeAmount) : 0,
+									y: animatingGirls ? -40 * element.rankChangeAmount : 0,
 									scale: 1,
 									rotate: 0,
-									opacity: element.rankChangeAmount !== 0 ? 0.3 : 1,
+									opacity: element.rankChangeAmount !== 0 ? 0 : 1,
 								}}
-								// onAnimationComplete={() => {
-								// 	setAnimating(false); // Set animating to false after animation
-								// }}
+								onAnimationComplete={() => {
+									setAnimatingGirls(false);
+									const sortedData = updatedGirls.sort((a, b) => {
+										if (type === "time") {
+											const aTime = moment(a.time, "mm:ss.SS");
+											const bTime = moment(b.time, "mm:ss.SS");
+
+											return aTime.valueOf() - bTime.valueOf();
+										} else if (type === "ranking") {
+											return b.id - a.id;
+										} else if (type === "point") {
+											return b.point - a.point;
+										}
+									});
+									if (sortedData.length > 0) {
+										setGirls(sortedData);
+									}
+								}}
 							>
 								<div className={styles.playerInfo}>
 									<div
@@ -222,8 +373,22 @@ function Card({ data, title, subTitle, intervalTime, cardLine }) {
 										)}
 									</div>
 								</div>
-								<div className={styles.time}>
-									<div>{element.time}</div>
+								<div
+									className={`${styles.result} ${
+										element.rankChangeAmount > 0
+											? styles.up
+											: element.rankChangeAmount < 0
+											? styles.down
+											: ""
+									}`}
+								>
+									{element.time && <div>{element.time}</div>}
+									{element.point &&
+										(doubledDigit ? (
+											<div>{parseFloat(element.point).toFixed(2)}</div>
+										) : (
+											<div>{parseFloat(element.point).toFixed(1)}</div>
+										))}
 								</div>
 							</Reorder.Item>
 						);
