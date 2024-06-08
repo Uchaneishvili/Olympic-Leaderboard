@@ -129,3 +129,13 @@ ul {
 .down {
 	color: #d64540;
 }
+
+@media (max-width: 767px) {
+	.cardContainer {
+		width: 100%;
+	}
+
+	.table {
+		width: 100%;
+	}
+}

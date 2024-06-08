@@ -27,3 +27,16 @@ body {
 .flag {
 	width: 24px;
 }
+
+@media (max-width: 767px) {
+	body {
+		min-width: fit-content;
+	}
+	.backgroundImage {
+		display: none;
+	}
+
+	.container {
+		padding: 0;
+	}
+}
