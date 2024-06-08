@@ -1,7 +1,12 @@
 import "./App.css";
 import Header from "./components/header/Header";
 import Card from "./components/card/Card";
-import { BiatlhlonCardLine } from "./components/ui/icons/icons";
+import {
+	BlueCardLine,
+	GreenCardLine,
+	RedCardLine,
+	YellowCardLine,
+} from "./components/ui/icons/icons";
 import HockeyCard from "./components/hockeyCard/HockeyCard";
 
 function App() {
@@ -142,49 +147,49 @@ function App() {
 			data: biatlhonData,
 			title: "BIATLHLON",
 			subTitle: "100M R-1 GIRLS",
-			line: <BiatlhlonCardLine />,
+			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "CROSS COUNTRY SKIING",
 			subTitle: "10 km Individual start free (boys)",
-			line: <BiatlhlonCardLine />,
+			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "ALPINE SKIING",
 			subTitle: "Slalom (boys)",
-			line: <BiatlhlonCardLine />,
+			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "SNOWBOARD",
 			subTitle: "Big Air (Boys)",
-			line: <BiatlhlonCardLine />,
+			line: <BlueCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "FREESTYLE SKIING",
 			subTitle: "Big Air (Boys)",
-			line: <BiatlhlonCardLine />,
+			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "FIGURE SKATING",
 			subTitle: "Single Skating Free Skating (Boys)",
-			line: <BiatlhlonCardLine />,
+			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 		{
 			data: biatlhonData,
 			title: "SHORT TRACK",
 			subTitle: "Boys 1500 m",
-			line: <BiatlhlonCardLine />,
+			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
 	];
@@ -203,6 +208,7 @@ function App() {
 							subTitle={element.subTitle}
 							line={element.line}
 							intervalTime={element.interval}
+							cardLine={element.line}
 						/>
 					);
 				})}

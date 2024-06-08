@@ -1,11 +1,12 @@
-import { ArrowDown, ArrowUp, BiatlhlonCardLine } from "../ui/icons/icons";
+import { ArrowDown, ArrowUp } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
 import { Reorder } from "framer-motion";
 
-function Card({ data, title, subTitle, intervalTime }) {
+function Card({ data, title, subTitle, intervalTime, cardLine }) {
 	const [list, setList] = useState(data);
 	const [updatedList, setUpdatedList] = useState([]);
+	const [animating, setAnimating] = useState(false); // Track animation state
 
 	useEffect(() => {
 		const updateData = () => {
@@ -39,6 +40,7 @@ function Card({ data, title, subTitle, intervalTime }) {
 			);
 
 			setUpdatedList(sortedData);
+			setAnimating(true); // Set animating to true before animation
 		};
 
 		const interval = setInterval(updateData, intervalTime * 2000);
@@ -51,9 +53,7 @@ function Card({ data, title, subTitle, intervalTime }) {
 			<div className={styles.title}>
 				<div>{title}</div>
 			</div>
-			<div className={styles.cardLineContainer}>
-				<BiatlhlonCardLine />
-			</div>
+			<div className={styles.cardLineContainer}>{cardLine}</div>
 			<div className={styles.table}>
 				<div className={styles.subtitleContainer}>
 					<div className={styles.subtitleInnerContainer}>
@@ -88,6 +88,15 @@ function Card({ data, title, subTitle, intervalTime }) {
 									y: 40 * element.rankChangeAmount,
 									scale: 1,
 									rotate: 0,
+									opacity: animating ? 0.5 : 1, // Use the animatingOpacity state to set opacity
+									transition: {
+										duration: 0.1,
+										ease: "easeInOut",
+										opacity: { duration: 0.5 }, // Set duration for opacity transition
+									},
+								}}
+								onAnimationComplete={() => {
+									setAnimating(false); // Set animating to false after animation
 								}}
 							>
 								<div className={styles.playerInfo}>

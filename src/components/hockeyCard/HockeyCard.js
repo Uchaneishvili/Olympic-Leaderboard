@@ -1,14 +1,20 @@
-import { BiatlhlonCardLine } from "../ui/icons/icons";
+import { BlueCardLine } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./HockeyCard.module.css";
 
 function HockeyCard({ boysData, girlsData }) {
 	const [boys, setBoys] = useState(boysData);
 	const [girls, setGirls] = useState(girlsData);
+	const [goal, setGoal] = useState(false);
+	const [nextScoringCountryIndex, setNextScoringCountryIndex] = useState(null);
+
 	useEffect(() => {
 		const updateData = (data, setData) => {
+			setGoal(true);
 			const matchRndm = Math.floor(Math.random() * data.length);
 			const countryRndm = Math.floor(Math.random() * data[matchRndm].length);
+
+			setNextScoringCountryIndex({ match: matchRndm, country: countryRndm });
 
 			const updatedList = [...data];
 			const scoreList = [...updatedList[matchRndm][countryRndm].scores];
@@ -44,7 +50,7 @@ function HockeyCard({ boysData, girlsData }) {
 				<div>ICE HOCKEY</div>
 			</div>
 			<div className={styles.cardLineContainer}>
-				<BiatlhlonCardLine />
+				<BlueCardLine />
 			</div>
 			<div className={styles.tableContainer}>
 				<div className={styles.table}>
@@ -55,17 +61,16 @@ function HockeyCard({ boysData, girlsData }) {
 							<div className={styles.dashedLine}></div>
 						</div>
 					</div>
-					{boys.map((match, index) => {
+					{boys.map((match, matchIndex) => {
 						return (
 							<>
 								<div className={styles.tableRow}>
-									{match.map((country, index) => {
+									{match.map((country, countryIndex) => {
 										return (
 											<div className={styles.matchRow}>
 												<div className={styles.teamRow}>
 													<div className={styles.countryInfo}>
 														<div>{country.flag}</div>
-
 														<div>{country.country}</div>
 													</div>
 													<div className={styles.scores}>
@@ -76,8 +81,9 @@ function HockeyCard({ boysData, girlsData }) {
 															return (
 																<div
 																	className={
-																		index === firstPositiveIndex &&
-																		styles.boldedScore
+																		index === firstPositiveIndex
+																			? styles.boldedScore
+																			: ""
 																	}
 																>
 																	{score}
@@ -90,7 +96,7 @@ function HockeyCard({ boysData, girlsData }) {
 										);
 									})}
 								</div>
-								{match.length !== index + 1 && (
+								{match.length !== matchIndex + 1 && (
 									<div className={styles.divider}></div>
 								)}
 							</>
