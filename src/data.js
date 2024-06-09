@@ -105,14 +105,14 @@ export const biatlhonDataGirls = [
 export const hockeyBoysData = [
 	[
 		{
-			country: "Slovenia",
+			country: "SLOVENIA",
 			scores: [0, 0, 3, 2],
 			flag: (
 				<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
 			),
 		},
 		{
-			country: "Switzerland",
+			country: "SWITZERLAND",
 			scores: [0, 0, 1, 2],
 			flag: (
 				<img className="flag" alt="country-flag" src="flags/Switzerland.png" />
@@ -122,12 +122,12 @@ export const hockeyBoysData = [
 
 	[
 		{
-			country: "Finland",
+			country: "FINLAND",
 			scores: [6, 1, 3, 1],
 			flag: <img className="flag" alt="country-flag" src="flags/Finland.png" />,
 		},
 		{
-			country: "Norway",
+			country: "NORWAY",
 			scores: [7, 2, 1, 2],
 			flag: <img className="flag" alt="country-flag" src="flags/Norway.png" />,
 		},
@@ -152,12 +152,12 @@ export const hockeyGirlsData = [
 
 	[
 		{
-			country: "Finland",
+			country: "FINLAND",
 			scores: [0, 0, 2, 1],
 			flag: <img className="flag" alt="country-flag" src="flags/Finland.png" />,
 		},
 		{
-			country: "Norway",
+			country: "NORWAY",
 			scores: [0, 0, 1, 1],
 			flag: <img className="flag" alt="country-flag" src="flags/Norway.png" />,
 		},

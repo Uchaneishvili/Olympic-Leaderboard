@@ -1,7 +1,7 @@
 import { ArrowDown, ArrowUp } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./Card.module.css";
-import { Reorder, addPointerInfo } from "framer-motion";
+import { Reorder } from "framer-motion";
 import moment from "moment";
 
 function Card({
@@ -87,6 +87,8 @@ function Card({
 
 						const randomIndex = Math.floor(Math.random() * data.length);
 						return data[randomIndex] === player ? updatedPlayer : player;
+					} else {
+						return player;
 					}
 				});
 
@@ -185,7 +187,7 @@ function Card({
 				clearInterval(interval2);
 			};
 		}
-	}, [girls, boys, intervalTime, type]);
+	}, [girls, boys, intervalTime, type, average, format]);
 
 	return (
 		<div className={styles.container}>
@@ -248,6 +250,8 @@ function Card({
 											return b.id - a.id;
 										} else if (type === "point") {
 											return b.point - a.point;
+										} else {
+											return 0;
 										}
 									});
 									if (sortedData.length > 0) {
@@ -377,6 +381,8 @@ function Card({
 											return b.id - a.id;
 										} else if (type === "point") {
 											return b.point - a.point;
+										} else {
+											return 0;
 										}
 									});
 									if (sortedData.length > 0) {

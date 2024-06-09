@@ -99,6 +99,7 @@ ul {
 
 .scores {
 	display: flex;
+	color: #7d94a5;
 	gap: 12px;
 }
 
