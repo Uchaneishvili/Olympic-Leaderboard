@@ -1,15 +1,26 @@
 import { BlueCardLine } from "../ui/icons/icons";
 import { useEffect, useState } from "react";
 import styles from "./HockeyCard.module.css";
-
+import { motion } from "framer-motion";
 function HockeyCard({ boysData, girlsData }) {
 	const [boys, setBoys] = useState(boysData);
 	const [girls, setGirls] = useState(girlsData);
-
+	const [matchRandomIndexBoys, setMatchRandomIndexBoys] = useState();
+	const [matchRandomIndexGirls, setMatchRandomIndexGirls] = useState();
+	const [countryRandomIndexBoys, setCountryRandomIndexBoys] = useState();
+	const [countryRandomIndexGirls, setCountryRandomIndexGirls] = useState();
 	useEffect(() => {
-		const updateData = (data, setData) => {
+		const updateData = (
+			data,
+			setData,
+			setMatchRandomIndex,
+			setCountryRandomIndex
+		) => {
 			const matchRndm = Math.floor(Math.random() * data.length);
 			const countryRndm = Math.floor(Math.random() * data[matchRndm].length);
+
+			setMatchRandomIndex(matchRndm);
+			setCountryRandomIndex(countryRndm);
 
 			const updatedList = [...data];
 			const scoreList = [...updatedList[matchRndm][countryRndm].scores];
@@ -25,13 +36,36 @@ function HockeyCard({ boysData, girlsData }) {
 
 				updatedList[matchRndm][countryRndm].scores = newScoreList;
 				setData(updatedList);
+
+				setTimeout(() => {
+					setMatchRandomIndex();
+					setCountryRandomIndex();
+				}, 3000);
 			} else {
 				console.log("No positive number found in the array.");
 			}
 		};
 
-		const interval1 = setInterval(() => updateData(boys, setBoys), 10000);
-		const interval2 = setInterval(() => updateData(girls, setGirls), 10000);
+		const interval1 = setInterval(
+			() =>
+				updateData(
+					boys,
+					setBoys,
+					setMatchRandomIndexBoys,
+					setCountryRandomIndexBoys
+				),
+			10000
+		);
+		const interval2 = setInterval(
+			() =>
+				updateData(
+					girls,
+					setGirls,
+					setMatchRandomIndexGirls,
+					setCountryRandomIndexGirls
+				),
+			10200
+		);
 
 		return () => {
 			clearInterval(interval1);
@@ -39,6 +73,17 @@ function HockeyCard({ boysData, girlsData }) {
 		};
 	}, [boys, girls]);
 
+	const flickerAnimation = {
+		flickering: {
+			backgroundColor: ["#ffffff", "#8fd5a5", "#ffffff", "#8fd5a5"],
+			transition: {
+				duration: 1,
+				repeat: Infinity,
+				repeatType: "reverse",
+				ease: "easeInOut",
+			},
+		},
+	};
 	return (
 		<div className={styles.container}>
 			<div className={styles.title}>
@@ -62,9 +107,18 @@ function HockeyCard({ boysData, girlsData }) {
 								<div key={`match-${matchIndex}`} className={styles.tableRow}>
 									{match.map((country, countryIndex) => {
 										return (
-											<div
+											<motion.div
 												key={`${matchIndex}-${countryIndex}`}
 												className={styles.matchRow}
+												variants={flickerAnimation}
+												layout
+												initial={{ backgroundColor: "#ffffff" }}
+												animate={
+													matchIndex === matchRandomIndexBoys &&
+													countryRandomIndexBoys === countryIndex
+														? "flickering"
+														: "initial"
+												}
 											>
 												<div className={styles.teamRow}>
 													<div className={styles.countryInfo}>
@@ -91,7 +145,7 @@ function HockeyCard({ boysData, girlsData }) {
 														})}
 													</div>
 												</div>
-											</div>
+											</motion.div>
 										);
 									})}
 								</div>
@@ -116,9 +170,18 @@ function HockeyCard({ boysData, girlsData }) {
 								<div key={`match-${matchIndex}`} className={styles.tableRow}>
 									{match.map((country, countryIndex) => {
 										return (
-											<div
+											<motion.div
 												key={`${matchIndex}-${countryIndex}`}
 												className={styles.matchRow}
+												variants={flickerAnimation}
+												layout
+												initial={{ backgroundColor: "#ffffff" }}
+												animate={
+													matchIndex === matchRandomIndexGirls &&
+													countryRandomIndexGirls === countryIndex
+														? "flickering"
+														: "initial"
+												}
 											>
 												<div className={styles.teamRow}>
 													<div className={styles.countryInfo}>
@@ -144,7 +207,7 @@ function HockeyCard({ boysData, girlsData }) {
 														})}
 													</div>
 												</div>
-											</div>
+											</motion.div>
 										);
 									})}
 								</div>

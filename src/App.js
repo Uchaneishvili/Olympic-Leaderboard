@@ -16,8 +16,6 @@ import {
 	crossCountryDataBoys,
 	crossCountryDataGirls,
 	alpineSkiingBoys,
-	bigAirBoys,
-	bigAirGirls,
 	freestyleBoys,
 	freestyleGirls,
 	figureSkatingBoys,
