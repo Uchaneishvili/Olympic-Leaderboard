@@ -36,6 +36,8 @@ function App() {
 			subTitle: ["100M R-1 GIRLS", "100M R-1 BOYS"],
 			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
+			average: 30,
+			format: "mm:ss.SS",
 		},
 		{
 			boysData: crossCountryDataBoys,
@@ -48,6 +50,8 @@ function App() {
 			],
 			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
+			average: 20,
+			format: "mm:ss.SS",
 		},
 		{
 			boysData: alpineSkiingBoys,
@@ -57,6 +61,8 @@ function App() {
 			subTitle: ["SLALOM (BOYS)", "SLALOM (GIRLS)"],
 			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
+			average: 1,
+			format: "m:ss.SS",
 		},
 		{
 			boysData: snowBoardingBoys,
@@ -98,6 +104,9 @@ function App() {
 			type: "time",
 			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
+			average: 3,
+			subType: "shortTrack",
+			format: "m:ss.SSS",
 		},
 	];
 	return (
@@ -119,6 +128,8 @@ function App() {
 							intervalTime={element.interval}
 							doubledDigit={element.doubledDigit || false}
 							cardLine={element.line}
+							average={element.average || 0}
+							format={element.format || ""}
 						/>
 					);
 				})}

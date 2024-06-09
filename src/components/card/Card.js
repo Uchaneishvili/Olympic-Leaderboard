@@ -13,6 +13,8 @@ function Card({
 	cardLine,
 	type,
 	doubledDigit,
+	average,
+	format,
 }) {
 	const [boys, setBoys] = useState(boysData);
 	const [girls, setGirls] = useState(girlsData);
@@ -27,7 +29,9 @@ function Card({
 				setAnimating(true);
 				const updatedData = data.map((player) => {
 					const randomTimeMilliseconds = Math.floor(Math.random() * 270000);
-					const randomMinutes = Math.floor(randomTimeMilliseconds / 60000 + 30);
+					const randomMinutes = Math.floor(
+						randomTimeMilliseconds / 60000 + average
+					);
 					const randomSeconds = Math.floor(
 						(randomTimeMilliseconds % 60000) / 1000
 					);
@@ -35,26 +39,60 @@ function Card({
 						(randomTimeMilliseconds % 1000) / 10
 					);
 
-					const formattedTime = `${randomMinutes
-						.toString()
-						.padStart(2, "0")}:${randomSeconds
-						.toString()
-						.padStart(2, "0")}.${randomMilliseconds
-						.toString()
-						.padStart(2, "0")}`;
+					if (format === "mm:ss.SS") {
+						const formattedTime = `${randomMinutes
+							.toString()
+							.padStart(1, "0")}:${randomSeconds
+							.toString()
+							.padStart(2, "0")}.${randomMilliseconds
+							.toString()
+							.padStart(2, "0")}`;
 
-					const updatedPlayer = {
-						...player,
-						time: formattedTime,
-					};
+						const updatedPlayer = {
+							...player,
+							time: formattedTime,
+						};
 
-					const randomIndex = Math.floor(Math.random() * data.length);
-					return data[randomIndex] === player ? updatedPlayer : player;
+						const randomIndex = Math.floor(Math.random() * data.length);
+						return data[randomIndex] === player ? updatedPlayer : player;
+					} else if (format === "m:ss.SSS") {
+						const formattedTime = `${randomMinutes
+							.toString()
+							.padStart(2, "0")}:${randomSeconds
+							.toString()
+							.padStart(2, "0")}.${randomMilliseconds
+							.toString()
+							.padStart(3, "0")}`;
+
+						const updatedPlayer = {
+							...player,
+							time: formattedTime,
+						};
+
+						const randomIndex = Math.floor(Math.random() * data.length);
+						return data[randomIndex] === player ? updatedPlayer : player;
+					} else if (format === "m:ss.SS") {
+						const formattedTime = `${randomMinutes
+							.toString()
+							.padStart(1, "0")}:${randomSeconds
+							.toString()
+							.padStart(2, "0")}.${randomMilliseconds
+							.toString()
+							.padStart(2, "0")}`;
+
+						const updatedPlayer = {
+							...player,
+							time: formattedTime,
+						};
+
+						const randomIndex = Math.floor(Math.random() * data.length);
+						return data[randomIndex] === player ? updatedPlayer : player;
+					}
 				});
 
 				const sortedData = updatedData.sort((a, b) => {
-					const aTime = moment(a.time, "mm:ss.SS");
-					const bTime = moment(b.time, "mm:ss.SS");
+					const aTime = moment(a.time, format);
+					const bTime = moment(b.time, format);
 
 					return aTime.valueOf() - bTime.valueOf();
 				});
@@ -64,11 +102,11 @@ function Card({
 
 			const interval1 = setInterval(
 				() => updateData(boys, setUpdatedBoys, setAnimatingBoys),
-				3000 * intervalTime
+				8512 * intervalTime
 			);
 			const interval2 = setInterval(
 				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
-				3500 * intervalTime
+				15000 * intervalTime
 			);
 
 			return () => {
@@ -97,11 +135,11 @@ function Card({
 
 			const interval1 = setInterval(
 				() => updateData(boys, setUpdatedBoys, setAnimatingBoys),
-				3000 * intervalTime
+				11050 * intervalTime
 			);
 			const interval2 = setInterval(
 				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
-				3500 * intervalTime
+				13060 * intervalTime
 			);
 
 			return () => {
@@ -135,11 +173,11 @@ function Card({
 
 			const interval1 = setInterval(
 				() => updateData(boys, setUpdatedBoys, setAnimatingBoys),
-				3000 * intervalTime
+				9000 * intervalTime
 			);
 			const interval2 = setInterval(
 				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
-				3500 * intervalTime
+				7500 * intervalTime
 			);
 
 			return () => {
@@ -276,9 +314,9 @@ function Card({
 										{element.time && <div>{element.time}</div>}
 										{element.point &&
 											(doubledDigit ? (
-												<div>{parseFloat(element.point).toFixed(2)}</div>
+												<div>{parseFloat(element.point).toFixed(2)}P</div>
 											) : (
-												<div>{parseFloat(element.point).toFixed(1)}</div>
+												<div>{parseFloat(element.point).toFixed(1)}P</div>
 											))}
 									</div>
 								</div>
@@ -386,9 +424,9 @@ function Card({
 									{element.time && <div>{element.time}</div>}
 									{element.point &&
 										(doubledDigit ? (
-											<div>{parseFloat(element.point).toFixed(2)}</div>
+											<div>{parseFloat(element.point).toFixed(2)}P</div>
 										) : (
-											<div>{parseFloat(element.point).toFixed(1)}</div>
+											<div>{parseFloat(element.point).toFixed(1)}P</div>
 										))}
 								</div>
 							</Reorder.Item>
