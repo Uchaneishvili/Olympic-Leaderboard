@@ -58,7 +58,7 @@ function Card({
 					} else if (format === "m:ss.SSS") {
 						const formattedTime = `${randomMinutes
 							.toString()
-							.padStart(2, "0")}:${randomSeconds
+							.padStart(1, "0")}:${randomSeconds
 							.toString()
 							.padStart(2, "0")}.${randomMilliseconds
 							.toString()
@@ -106,7 +106,7 @@ function Card({
 			);
 			const interval2 = setInterval(
 				() => updateData(girls, setUpdatedGirls, setAnimatingGirls),
-				15000 * intervalTime
+				9000 * intervalTime
 			);
 
 			return () => {

@@ -54,7 +54,7 @@ function HockeyCard({ boysData, girlsData }) {
 					setMatchRandomIndexBoys,
 					setCountryRandomIndexBoys
 				),
-			13050
+			16802
 		);
 		const interval2 = setInterval(
 			() =>
