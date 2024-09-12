@@ -1,8 +1,89 @@
-import { ArrowDown, ArrowUp } from "../ui/icons/icons";
-import { useEffect, useState } from "react";
+import React, {
+	useState,
+	useLayoutEffect,
+	useEffect,
+	useCallback,
+	useMemo,
+} from "react";
 import styles from "./Card.module.css";
-import { Reorder } from "framer-motion";
+import { motion, useAnimation, Reorder } from "framer-motion";
 import moment from "moment";
+import { ArrowDown, ArrowUp } from "../ui/icons/icons";
+
+const PlayerRow = React.memo(
+	({ player, index, type, setAnimatingBoys, updatedBoys, setBoys }) => {
+		const controls = useAnimation();
+
+		useEffect(() => {
+			if (player.rankChange !== 0) {
+				controls.start({
+					opacity: [1, 0.5, 1],
+					y: -40 * player.rankChange,
+					x: 0,
+					scale: 1,
+					rotate: 0,
+					transition: {
+						duration: 2,
+						opacity: { times: [0, 0.5, 1], duration: 2 },
+					},
+				});
+			}
+		}, [player.rankChange, controls]);
+
+		return (
+			<Reorder.Item
+				key={player.id}
+				className={styles.row}
+				value={player}
+				transition={null}
+				animate={controls}
+				initial={{ opacity: 1 }}
+				onAnimationComplete={() => {
+					setAnimatingBoys(false);
+
+					const sortedData = updatedBoys.sort((a, b) => {
+						if (type === "time") {
+							const aTime = moment(a.time, "mm:ss.SS");
+							const bTime = moment(b.time, "mm:ss.SS");
+
+							return aTime.valueOf() - bTime.valueOf();
+						} else if (type === "ranking") {
+							return b.id - a.id;
+						} else if (type === "point") {
+							return b.point - a.point;
+						} else {
+							return 0;
+						}
+					});
+					if (sortedData.length > 0) {
+						setBoys(sortedData);
+					}
+				}}
+			>
+				<div className={styles.playerInfo}>
+					<div
+						className={`${styles.ranking} ${index === 0 && styles.first} ${
+							index === 1 && styles.second
+						} ${index === 2 && styles.third}`}
+					>
+						<div className={styles.index}>{index + 1}.</div>
+						<div className={styles.flag}>{player.flag}</div>
+					</div>
+					<div className={styles.country}>({player.country})</div>
+					<div className={styles.name}>{player.name}</div>
+					<div className={styles.name}>
+						{player.rankChange > 0 && <ArrowUp />}
+						{player.rankChange < 0 && <ArrowDown />}
+					</div>
+				</div>
+				<div className={styles.result}>
+					{type === "time" && player.time}
+					{type === "point" && `${parseFloat(player.point).toFixed(2)}P`}
+				</div>
+			</Reorder.Item>
+		);
+	}
+);
 
 function Card({
 	boysData,
@@ -20,8 +101,9 @@ function Card({
 	const [girls, setGirls] = useState(girlsData);
 	const [updatedBoys, setUpdatedBoys] = useState([]);
 	const [updatedGirls, setUpdatedGirls] = useState([]);
-	const [animatingBoys, setAnimatingBoys] = useState(true);
-	const [animatingGirls, setAnimatingGirls] = useState(true);
+	const [animatingBoys, setAnimatingBoys] = useState(false);
+	const [animatingGirls, setAnimatingGirls] = useState(false);
+	const [isFlipped, setIsFlipped] = useState(false);
 
 	useEffect(() => {
 		if (type === "time") {
@@ -123,7 +205,6 @@ function Card({
 
 					const updatedPlayer = {
 						...player,
-						id: randomId.toString().padStart(6, "0"), // Convert to string and pad with leading zeros
 					};
 
 					const randomIndex = Math.floor(Math.random() * data.length);
@@ -189,257 +270,107 @@ function Card({
 		}
 	}, [girls, boys, intervalTime, type, average, format]);
 
+	const commonStyles = useMemo(
+		() => ({
+			padding: "0px",
+			position: "absolute",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			flexDirection: "column",
+			backfaceVisibility: "hidden",
+		}),
+		[]
+	);
+
 	return (
-		<div className={styles.container}>
-			<div className={styles.title}>
-				<div>{title}</div>
-			</div>
-			<div className={styles.cardLineContainer}>{cardLine}</div>
-			<div className={styles.table}>
-				<div className={styles.subtitleContainer}>
-					<div className={styles.subtitleInnerContainer}>
-						<div className={styles.dashedLine}></div>
-						<div className={styles.subtitle}>{subTitle[0]}</div>
-						<div className={styles.dashedLine}></div>
+		<div
+			className={styles.mainContainer}
+			onClick={() => setIsFlipped(!isFlipped)}
+		>
+			<Reorder.Group
+				drag={false}
+				style={commonStyles}
+				animate={{ rotateY: isFlipped ? 180 : 0 }}
+				transition={{ duration: 0.6 }}
+				values={boys}
+				onReorder={setBoys}
+				className={styles.container}
+			>
+				<div className={styles.title}>{title}</div>
+				<div className={styles.tableContainer}>
+					{cardLine}
+					<div className={styles.innerContainer}>
+						<div className={styles.table}>
+							<div className={styles.subtitleContainer}>
+								<div className={styles.subtitleInnerContainer}>
+									<div className={styles.dashedLine}></div>
+									<div className={styles.subtitle}>
+										{subTitle || "10 km Individual start free (boys)"}
+									</div>
+									<div className={styles.dashedLine}></div>
+								</div>
+							</div>
+							<div className={styles.list}>
+								{boys.map((player, index) => {
+									const updatedPlayer =
+										updatedBoys.find((p) => p.name === player.name) || player;
+									const newIndex = updatedBoys.findIndex(
+										(p) => p.name === player.name
+									);
+
+									if (updatedBoys.length > 0) {
+										const newIndex = updatedBoys.findIndex(
+											(p) => p.name === player.name
+										);
+
+										const newTime = updatedBoys.filter(
+											(p) => p.name === player.name
+										);
+
+										player.rankChangeAmount = index - newIndex;
+
+										if (player.time) {
+											player.time = newTime[0].time;
+										} else if (player.point) {
+											player.point = newTime[0].point;
+										}
+									}
+
+									return (
+										<PlayerRow
+											player={{
+												...updatedPlayer,
+												rankChange: newIndex !== -1 ? index - newIndex : 0,
+											}}
+											index={index}
+											setAnimating={setAnimatingBoys}
+											animating={animatingBoys}
+											updatedPlayers={updatedBoys}
+											type={type}
+											setPlayers={setBoys}
+											setAnimatingBoys={setAnimatingBoys}
+											updatedBoys={updatedBoys}
+											setBoys={setBoys}
+										/>
+									);
+								})}
+							</div>
+						</div>
 					</div>
 				</div>
-				<Reorder.Group values={boys} onReorder={setBoys}>
-					{boys.map((element, index) => {
-						if (updatedBoys.length > 0) {
-							const newIndex = updatedBoys.findIndex(
-								(p) => p.name === element.name
-							);
+			</Reorder.Group>
 
-							const newTime = updatedBoys.filter(
-								(p) => p.name === element.name
-							);
-
-							element.rankChangeAmount = index - newIndex;
-
-							if (element.time) {
-								element.time = newTime[0].time;
-							} else if (element.point) {
-								element.point = newTime[0].point;
-							}
-						}
-
-						return (
-							<Reorder.Item
-								drag={false}
-								className={styles.tableRow}
-								key={index}
-								layout
-								transition={{ duration: 2 }}
-								animate={{
-									x: 0,
-									y: animatingBoys ? -40 * element.rankChangeAmount : 0,
-									scale: 1,
-									rotate: 0,
-									opacity: element.rankChangeAmount !== 0 ? 0 : 1,
-								}}
-								onAnimationComplete={() => {
-									setAnimatingBoys(false);
-
-									const sortedData = updatedBoys.sort((a, b) => {
-										if (type === "time") {
-											const aTime = moment(a.time, "mm:ss.SS");
-											const bTime = moment(b.time, "mm:ss.SS");
-
-											return aTime.valueOf() - bTime.valueOf();
-										} else if (type === "ranking") {
-											return b.id - a.id;
-										} else if (type === "point") {
-											return b.point - a.point;
-										} else {
-											return 0;
-										}
-									});
-									if (sortedData.length > 0) {
-										setBoys(sortedData);
-									}
-								}}
-							>
-								<div className={styles.playerInfo}>
-									<div
-										className={
-											index === 0
-												? styles.firstPlace
-												: index === 1
-												? styles.secondPlace
-												: index === 2
-												? styles.thirdPlace
-												: styles.ranking
-										}
-									>
-										<div>{index + 1}.</div>
-										{element.flag}
-									</div>
-
-									<div className={styles.country}>({element.country})</div>
-									<div
-										className={
-											element.rankChangeAmount > 0
-												? styles.up
-												: element.rankChangeAmount < 0
-												? styles.down
-												: ""
-										}
-									>
-										{element.name}
-									</div>
-									<div>
-										{element.rankChangeAmount > 0 ? (
-											<ArrowUp />
-										) : element.rankChangeAmount < 0 ? (
-											<ArrowDown />
-										) : (
-											""
-										)}
-									</div>
-								</div>
-								<div
-									className={`${styles.time} ${
-										element.rankChangeAmount > 0
-											? styles.up
-											: element.rankChangeAmount < 0
-											? styles.down
-											: ""
-									}`}
-								>
-									<div
-										className={`${styles.result} ${
-											element.rankChangeAmount > 0
-												? styles.up
-												: element.rankChangeAmount < 0
-												? styles.down
-												: ""
-										}`}
-									>
-										{element.time && <div>{element.time}</div>}
-										{element.point &&
-											(doubledDigit ? (
-												<div>{parseFloat(element.point).toFixed(2)}P</div>
-											) : (
-												<div>{parseFloat(element.point).toFixed(1)}P</div>
-											))}
-									</div>
-								</div>
-							</Reorder.Item>
-						);
-					})}
-				</Reorder.Group>
-
-				<div className={styles.subtitleContainer}>
-					<div className={styles.subtitleInnerContainer}>
-						<div className={styles.dashedLine}></div>
-						<div className={styles.subtitle}>{subTitle[1]}</div>
-						<div className={styles.dashedLine}></div>
-					</div>
-				</div>
-				<Reorder.Group values={girls} onReorder={setGirls}>
-					{girls.map((element, index) => {
-						if (updatedGirls.length > 0) {
-							const newIndex = updatedGirls.findIndex(
-								(p) => p.name === element.name
-							);
-
-							const newTime = updatedGirls.filter(
-								(p) => p.name === element.name
-							);
-							element.rankChangeAmount = index - newIndex;
-
-							if (element.time) {
-								element.time = newTime[0].time;
-							} else if (element.point) {
-								element.point = newTime[0].point;
-							}
-						}
-
-						return (
-							<Reorder.Item
-								className={styles.tableRow}
-								drag={false}
-								key={index}
-								layout
-								transition={{ duration: 0.5 }}
-								animate={{
-									x: 0,
-									y: animatingGirls ? -40 * element.rankChangeAmount : 0,
-									scale: 1,
-									rotate: 0,
-									opacity: element.rankChangeAmount !== 0 ? 0 : 1,
-								}}
-								onAnimationComplete={() => {
-									setAnimatingGirls(false);
-									const sortedData = updatedGirls.sort((a, b) => {
-										if (type === "time") {
-											const aTime = moment(a.time, "mm:ss.SS");
-											const bTime = moment(b.time, "mm:ss.SS");
-
-											return aTime.valueOf() - bTime.valueOf();
-										} else if (type === "ranking") {
-											return b.id - a.id;
-										} else if (type === "point") {
-											return b.point - a.point;
-										} else {
-											return 0;
-										}
-									});
-									if (sortedData.length > 0) {
-										setGirls(sortedData);
-									}
-								}}
-							>
-								<div className={styles.playerInfo}>
-									<div
-										className={
-											index === 0
-												? styles.firstPlace
-												: index === 1
-												? styles.secondPlace
-												: index === 2
-												? styles.thirdPlace
-												: styles.ranking
-										}
-									>
-										<div>{index + 1}.</div>
-										{element.flag}
-									</div>
-
-									<div>({element.country})</div>
-									<div>{element.name}</div>
-									<div>
-										{element.rankChangeAmount > 0 ? (
-											<ArrowDown />
-										) : element.rankChangeAmount < 0 ? (
-											<ArrowUp />
-										) : (
-											""
-										)}
-									</div>
-								</div>
-								<div
-									className={`${styles.result} ${
-										element.rankChangeAmount > 0
-											? styles.up
-											: element.rankChangeAmount < 0
-											? styles.down
-											: ""
-									}`}
-								>
-									{element.time && <div>{element.time}</div>}
-									{element.point &&
-										(doubledDigit ? (
-											<div>{parseFloat(element.point).toFixed(2)}P</div>
-										) : (
-											<div>{parseFloat(element.point).toFixed(1)}P</div>
-										))}
-								</div>
-							</Reorder.Item>
-						);
-					})}
-				</Reorder.Group>
-			</div>
+			<motion.div
+				style={commonStyles}
+				initial={{ rotateY: 180 }}
+				animate={{ rotateY: isFlipped ? 0 : 180 }}
+				transition={{ duration: 0.6 }}
+			>
+				<video autoPlay loop muted playsInline className={styles.video}>
+					<source src="/assets/videos/video.mp4" type="video/mp4" />
+				</video>
+			</motion.div>
 		</div>
 	);
 }

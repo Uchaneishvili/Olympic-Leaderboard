@@ -1,91 +1,98 @@
-.container {
-	background-color: #f5f7f7;
+.mainContainer {
 	width: 437px;
-	height: 400px;
+	height: 426px;
+}
+
+.container {
 	border-radius: 20px;
-	z-index: auto;
+	background-color: #f5f7f7;
+}
+
+.innerContainer {
+	z-index: 999;
+	background-color: #ffffff;
+	border: 1px solid hsla(218, 22%, 21%, 0.149);
+	width: 429px;
+	height: 355px;
+	margin: 0px 4px 4px 4px;
+	border-radius: 16px;
+	box-shadow: 0 -10px 20px 0 #0c0f300d;
 }
 
 .table {
-	margin: 0px 4px 4px 4px;
-	background-color: #ffffff;
-	border-radius: 16px;
-	border: 1px solid #2a334226;
-	width: 429px;
-	height: 338px;
-	box-shadow: 0px -10px 20px 0px rgba(12, 15, 48, 0.05);
-	padding-top: 10px;
-	overflow-y: scroll;
-}
-
-.table::-webkit-scrollbar {
-	width: 6px;
-	height: 6px;
-}
-
-.table::-webkit-scrollbar-thumb {
-	border-radius: 20px;
-	background: #888888;
-}
-.tableRow {
+	padding: 20px 24px 0px 24px;
 	display: flex;
-	padding: 4px 24px;
+	flex-direction: column;
+}
+
+.list {
+	padding-top: 4px;
+	row-gap: 8px;
+	display: flex;
+	flex-direction: column;
+}
+
+.divider {
+	display: inline-block;
+	height: 2px;
+}
+
+.tableContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.title {
+	text-align: center;
+	font-weight: 700;
+	font-size: 20px;
+	padding: 20px 100px;
+}
+
+.row {
+	height: 32px;
+	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+	flex-direction: row;
 }
 
 .playerInfo {
 	display: flex;
-	gap: 8px;
 	align-items: center;
+	gap: 8px;
 }
 
-.ranking,
-.firstPlace,
-.secondPlace,
-.thirdPlace {
+.ranking {
 	background-color: #7d94a533;
-	display: flex;
+	color: #7d94a5;
+	border-radius: 6px;
 	width: 60px;
 	height: 32px;
-	border-radius: 6px;
+	display: flex;
+	justify-content: space-evenly;
 	align-items: center;
-	justify-content: space-around;
-	color: #7d94a5;
 	font-size: 16px;
 }
 
-.firstPlace {
+.first {
 	background-color: #e8bc4f;
 	color: #ffffff;
 }
-.secondPlace {
+
+.second {
 	background-color: #95999a;
 	color: #ffffff;
 }
-.thirdPlace {
+
+.third {
 	background-color: #db8f5a;
 	color: #ffffff;
 }
 
-.title {
-	font-size: 20px;
-	font-weight: 700;
-	color: #2a3342;
-	padding: 10px 20px 10px 20px;
-	text-align: center;
-}
-
-.cardLineContainer {
-	position: relative;
-	height: 2px;
-	top: -15px;
-}
-
 .subtitleContainer {
 	text-align: center;
-	margin: 0px 25px;
 }
 
 .subtitleInnerContainer {
@@ -108,13 +115,12 @@
 	font-size: 16px;
 }
 
-ul {
-	margin: 0;
-	padding: 0;
-}
-
 .country {
 	color: #7d94a5;
+}
+
+.name {
+	color: #2a3342;
 }
 
 .result {
@@ -122,21 +128,11 @@ ul {
 	font-weight: 700;
 }
 
-.up {
-	color: #57a870;
-}
-
-.down {
-	color: #d64540;
-}
-
-@media (max-width: 767px) {
-	.container {
-		width: 100%;
-	}
-
-	.table {
-		width: 100%;
-		margin: 0;
-	}
+.video {
+	width: 437px;
+	height: 426px;
+	border-radius: 20px;
+	object-fit: cover;
+	margin-top: 16px;
+	margin-bottom: 16px;
 }

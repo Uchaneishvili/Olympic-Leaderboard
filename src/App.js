@@ -33,7 +33,8 @@ function App() {
 			girlsData: biatlhonDataGirls,
 			type: "time",
 			title: "BIATLHLON",
-			subTitle: ["100M R-1 GIRLS", "100M R-1 BOYS"],
+			// subTitle: ["100M R-1 GIRLS", "100M R-1 BOYS"],
+			subTitle: ["100M R-1 GIRLS"],
 			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 			average: 30,
@@ -44,10 +45,12 @@ function App() {
 			girlsData: crossCountryDataGirls,
 			type: "time",
 			title: "CROSS COUNTRY SKIING",
-			subTitle: [
-				"10 KM INDIVIDUAL START FREE (BOYS)",
-				"10 KM INDIVIDUAL START CLASSIC (GIRLS)",
-			],
+			// subTitle: [
+			// 	"10 KM INDIVIDUAL START FREE (BOYS)",
+			// 	"10 KM INDIVIDUAL START CLASSIC (GIRLS)",
+			// ],
+
+			subTitle: ["10 KM INDIVIDUAL START FREE (BOYS)"],
 			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 			average: 20,
@@ -58,7 +61,8 @@ function App() {
 			girlsData: alpineSkiingBoys,
 			title: "ALPINE SKIING",
 			type: "time",
-			subTitle: ["SLALOM (BOYS)", "SLALOM (GIRLS)"],
+			// subTitle: ["SLALOM (BOYS)", "SLALOM (GIRLS)"],
+			subTitle: ["SLALOM (BOYS)"],
 			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 			average: 1,
@@ -69,7 +73,8 @@ function App() {
 			girlsData: snowBoardGirls,
 			title: "SNOWBOARD",
 			type: "ranking",
-			subTitle: ["BIG AIR (BOYS)", "BIG AIR (GIRLS)"],
+			// subTitle: ["BIG AIR (BOYS)", "BIG AIR (GIRLS)"],
+			subTitle: ["BIG AIR (BOYS)"],
 			line: <BlueCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
@@ -78,7 +83,8 @@ function App() {
 			girlsData: freestyleGirls,
 			title: "FREESTYLE SKIING",
 			type: "point",
-			subTitle: ["BIG AIR (BOYS)", "BIG AIR (GIRLS)"],
+			// subTitle: ["BIG AIR (BOYS)", "BIG AIR (GIRLS)"],
+			subTitle: ["BIG AIR (BOYS)"],
 			doubledDigit: false,
 			line: <RedCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
@@ -89,10 +95,11 @@ function App() {
 			title: "FIGURE SKATING",
 			type: "point",
 			doubledDigit: true,
-			subTitle: [
-				"SINGLE SKATING FREE SKATING (BOYS)",
-				"SINGLE SKATING FREE SKATING (GIRLS)",
-			],
+			subTitle: ["SINGLE SKATING FREE SKATING (BOYS)"],
+			// subTitle: [
+			// 	"SINGLE SKATING FREE SKATING (BOYS)",
+			// 	"SINGLE SKATING FREE SKATING (GIRLS)",
+			// ],
 			line: <YellowCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
 		},
@@ -100,7 +107,8 @@ function App() {
 			boysData: shortTrackBoy,
 			girlsData: shortTrackGirl,
 			title: "SHORT TRACK",
-			subTitle: ["BOYS 1500M", "GIRLS 1500M"],
+			subTitle: ["BOYS 1500M"],
+			// subTitle: ["BOYS 1500M", "GIRLS 1500M"],
 			type: "time",
 			line: <GreenCardLine />,
 			interval: Math.floor(Math.random() * 3 + 1),
@@ -110,11 +118,14 @@ function App() {
 		},
 	];
 	return (
-		<div className="container">
-			<img className="backgroundImage" alt="background" src="image.png" />
-
+		<div>
+			<img
+				className="background"
+				alt="background"
+				src="assets/background/background.png"
+			/>
 			<Header />
-			<div className="innerContainer">
+			<div className="container">
 				{cardListData.map((element, index) => {
 					return (
 						<Card

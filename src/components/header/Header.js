@@ -1,42 +1,33 @@
-import styles from "./Header.module.css";
 import { useState, useEffect } from "react";
-import { Calendar, Logo } from "../ui/icons/icons";
+import FormatData from "../../util/FormatData";
+import { CalendarIcon } from "../ui/icons/icons";
+import styles from "./Header.module.css";
 
 function Header() {
-	const [dateTime, setDateTime] = useState(new Date());
+	const [date, setDate] = useState(new Date());
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setDateTime(new Date());
+			setDate(new Date());
 		}, 1000);
 
 		return () => clearInterval(interval);
 	}, []);
 
-	const formatDate = (date) => {
-		const options = { day: "numeric", month: "long", year: "numeric" };
-		return date.toLocaleDateString("en-GB", options);
-	};
-
-	const formatTime = (date) => {
-		const hours = date.getHours().toString().padStart(2, "0");
-		const minutes = date.getMinutes().toString().padStart(2, "0");
-		const seconds = date.getSeconds().toString().padStart(2, "0");
-		return `${hours}:${minutes}:${seconds}`;
-	};
-
 	return (
-		<header className={styles.container}>
-			<div className={styles.logoContainer}>
-				<Logo />
-			</div>
-			<div className={styles.calendarContainer}>
-				<div className={styles.calendarInnerContainer}>
-					<div className={styles.date}> {formatDate(dateTime)}</div>
-					<div className={styles.time}> {formatTime(dateTime)}</div>
-				</div>
+		<header>
+			<div className={styles.container}>
 				<div>
-					<Calendar />
+					<img className={styles.logo} src="assets/logo/Logo.png" alt="logo" />
+				</div>
+				<div className={styles.calendarContainer}>
+					<div className={styles.dateContainer}>
+						<div className={styles.date}>{FormatData.formatDate(date)}</div>
+						<div className={styles.time}>{FormatData.formatTime(date)}</div>
+					</div>
+					<div>
+						<CalendarIcon />
+					</div>
 				</div>
 			</div>
 		</header>

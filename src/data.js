@@ -140,7 +140,7 @@ export const hockeyGirlsData = [
 			country: "SLOVAKIA",
 			scores: [0, 2, 2, 2],
 			flag: (
-				<img className="flag" alt="country-flag" src="flags/Slovenia.png" />
+				<img className="flag" alt="country-flag" src="flags/Slovakia.png" />
 			),
 		},
 		{
